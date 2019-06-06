@@ -29,4 +29,4 @@ systemStepControllerType = Sequential_MinAdaptiveModelStep
 needEBQ_GLOBAL = False
 needEBQ        = False
 
-tnList = [0.0] + [param.dt_init] + [param.dt_init+i*param.dt_fixed for i in range(1,param.dt_steps+1)] 
+tnList = [0.0] + [param.dt_init+i*param.dt_fixed for i in range(0,param.dt_steps)] 

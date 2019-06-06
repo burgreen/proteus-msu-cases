@@ -12,11 +12,11 @@ if ! which parun > /dev/null 2>&1; then
   echo
   echo parun is not found. You need to:
   echo
-  echo '$ source <proteus_dir>/0-setup-proteus.sh'
+  echo '$ source <proteus_dir>/0-module-load-proteus.sh'
   echo
   echo 'where <proteus_dir> is a location of a valid Proteus installation'
   exit
 fi
 
-mpirun -n 3 parun main.py -l 2 -v -O 2-petsc.options.asm -D $1
+mpirun -n 2 parun main.py -l 2 -v -O 2-petsc.options.asm -H -D $1
 
