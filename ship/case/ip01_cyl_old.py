@@ -1,4 +1,4 @@
-# im03_channel.py
+# ip01_cyl.py surface-piercing-cylinder
 
 import math
 from proteus import default_p
@@ -27,13 +27,12 @@ useRANS    = 0      # 0 -- None # 1 -- K-Epsilon # 2 -- K-Omega
 # time stepping
 
 dt_init  = 0.0001
-dt_fixed = 0.0001
-dt_fixed_steps = 1 
+dt_fixed = 0.01
+dt_fixed_steps = 3
 
 # initial conditions
 
 waterLine_z = 0.0
-waterLine_z = -5.0
 
 def IC_signed_distance(x):
     phi_z = x[2]-waterLine_z 
@@ -63,48 +62,48 @@ class IC_field_phi:
 
 IC_field_value = {}
 IC_field_value['p'] = 0.
-IC_field_value['u'] = 5.0
+IC_field_value['u'] = 1.0
 IC_field_value['v'] = 0.
 IC_field_value['w'] = 0.
 
 # mesh and BCs 
 
-mesh_nominal_spacing = 0.05
+nominal_mesh_spacing = 0.05
 
 u = IC_field_value['u']
 v = IC_field_value['v']
 w = IC_field_value['w']
 Vmag = math.sqrt( u*u + v*v + w*w )
 
-bc_wall   = { 'type':'noSlip' }
+bc_wall   = { 'type':'NoSlip' }
 bc_inlet  = { 'type':'velocityInlet_rans2p', 
               'Vmag': Vmag,
               'sdf': IC_signed_distance,
               'fluid': fluid,
-              'smoothing': mesh_nominal_spacing,
+              'smoothing': nominal_mesh_spacing,
 }
 bc_outlet = { 'type':'outflow_rans2p', 
               'sdf': IC_signed_distance,
               'fluid': fluid,
               'gravity': gravity,
               'waterLevel': waterLine_z,
-              'smoothing': mesh_nominal_spacing,
+              'smoothing': nominal_mesh_spacing,
 }
 bc_open = { 'type':'open' }
 bc_interior = { 'type':'interior' }
 
 bc_zone = {}
 
-filename = 'mesh/im03a.tetgen'
+filename = 'mesh/ip01V.tetgen'
 
 bc_zone['interior'] = { 'meshtag': 0,  'condition': bc_interior }
-bc_zone['channel']  = { 'meshtag': 5,  'condition': bc_wall }
 bc_zone['inlet']    = { 'meshtag': 1,  'condition': bc_inlet }
 bc_zone['outlet']   = { 'meshtag': 2,  'condition': bc_outlet }
-bc_zone['side1']    = { 'meshtag': 6,  'condition': bc_wall }
-bc_zone['side2']    = { 'meshtag': 7,  'condition': bc_wall }
-bc_zone['ground']   = { 'meshtag': 4,  'condition': bc_wall }
-bc_zone['air']      = { 'meshtag': 3,  'condition': bc_open }
+bc_zone['side1']    = { 'meshtag': 3,  'condition': bc_wall }
+bc_zone['side2']    = { 'meshtag': 4,  'condition': bc_wall }
+bc_zone['air']      = { 'meshtag': 5,  'condition': bc_open }
+bc_zone['ground']   = { 'meshtag': 6,  'condition': bc_wall }
+bc_zone['cylinder'] = { 'meshtag': 7,  'condition': bc_wall }
 
 ele_fluid  = { 'type':'fluid' }
   

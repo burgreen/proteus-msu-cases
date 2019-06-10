@@ -84,7 +84,9 @@ print( '----------------', domain )
 
 for key in user_param.bc_zone.keys():
   bc = user_param.bc_zone[key]
-  domain.bc_zone_define( name=key, meshtag=bc['meshtag'],  condition=bc['condition'] )
+  custom = None
+  if 'custom' in bc: custom = bc['custom']
+  domain.bc_zone_define( name=key, meshtag=bc['meshtag'],  condition=bc['condition'], custom=custom )
 
 for key in user_param.ele_zone.keys():
   bc = user_param.ele_zone[key]
@@ -92,8 +94,9 @@ for key in user_param.ele_zone.keys():
 
 # Time stepping
 
+dt_init  = user_param.dt_init
 dt_fixed = user_param.dt_fixed
-dt_steps = user_param.dt_fixed_steps
+dt_fixed_steps = user_param.dt_fixed_steps
 
 # Numerical parameters
 
@@ -159,6 +162,8 @@ tol_std = max( 1.0e-8, 0.1*he**2/2.0 )
 tol_rd  = max( 1.0e-8, 0.1*he )
 tol_std = 1.0e-6
 tol_rd  = 1.0e-6
+tol_std = 1.0e-5
+tol_rd  = 1.0e-5
 
 ns_nl_atol_res          = tol_std
 vof_nl_atol_res         = tol_std

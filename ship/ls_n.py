@@ -38,5 +38,5 @@ l_atol_res         = 0.01*ls_nl_atol_res
 nl_atol_res        = ls_nl_atol_res
 useEisenstatWalker = False
 
-maxNonlinearIts = 50
+maxNonlinearIts = 80
 maxLineSearches = 0
