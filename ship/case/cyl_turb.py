@@ -1,7 +1,8 @@
-# user_param.py  case: marin_2_phase treated as open duct
+# cyl_turb.py
 
 import math
 from proteus import default_p
+from . import cyl_turb_bc
 
 # fluid properties
 
@@ -22,7 +23,7 @@ if nphase > 1: gravity = [0.,0.,-9.8]
 # input options    
 
 spaceOrder = 1
-useRANS    = 0      # 0 -- None # 1 -- K-Epsilon # 2 -- K-Omega
+useRANS    = 2      # 0 -- None # 1 -- K-Epsilon # 2 -- K-Omega
 
 # time stepping
 
@@ -65,12 +66,14 @@ IC_field_value['p'] = 0.
 IC_field_value['u'] = 1.
 IC_field_value['v'] = 0.
 IC_field_value['w'] = 0.
+IC_field_value['turb_k'] = 0.001
+IC_field_value['turb_e'] = 0.001
 
 # mesh and BCs 
 
 filename = 'mesh/cyl_01.tetgen'
 
-nominal_mesh_spacing = 0.05
+mesh_nominal_spacing = 0.05
 
 u = IC_field_value['u']
 v = IC_field_value['v']
@@ -83,21 +86,21 @@ bc_inlet  = { 'type':'velocityInlet',
               'Vmag': Vmag,
               'sdf': IC_signed_distance,
               'fluid': fluid,
-              'smoothing': nominal_mesh_spacing,
+              'smoothing': mesh_nominal_spacing,
 }
 bc_outlet = { 'type':'outflow', 
               'sdf': IC_signed_distance,
               'fluid': fluid,
               'gravity': gravity,
               'waterLevel': waterLine_z,
-              'smoothing': nominal_mesh_spacing,
+              'smoothing': mesh_nominal_spacing,
 }
 bc_open = { 'type':'open' }
 bc_interior = { 'type':'interior' }
 
 bc_zone = {}
 bc_zone['interior'] = { 'meshtag': 0,  'condition': bc_interior }
-bc_zone['cyl']      = { 'meshtag': 7,  'condition': bc_wall }
+bc_zone['cyl']      = { 'meshtag': 7,  'condition': bc_wall, 'custom': cyl_turb_bc.noSlip }
 bc_zone['x0']       = { 'meshtag': 1,  'condition': bc_inlet }
 bc_zone['x1']       = { 'meshtag': 2,  'condition': bc_outlet }
 bc_zone['y0']       = { 'meshtag': 3,  'condition': bc_slip }

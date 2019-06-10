@@ -193,7 +193,7 @@ rho_1 = user_param.fluid[phase_1]['rho']
 mu_1  = user_param.fluid[phase_1]['mu']
 nu_1  = mu_1/rho_1
 
-print( 'phases =', phase_0, phase_1 )
+print( 'nphase, phases =', user_param.nphase, phase_0, phase_1 )
 
 # Surface tension
 

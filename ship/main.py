@@ -30,5 +30,8 @@ needEBQ_GLOBAL = False
 needEBQ        = False
 
 tnList = [0.0] 
-if param.dt_init > 0: tnList += [param.dt_init]
-tnList += [(i+1)*param.dt_fixed for i in range(0,param.dt_fixed_steps)] 
+if param.dt_init > 0: 
+  tnList += [param.dt_init]
+  tnList += [param.dt_init+(i+1)*param.dt_fixed for i in range(0,param.dt_fixed_steps)] 
+else:
+  tnList += [(i+1)*param.dt_fixed for i in range(0,param.dt_fixed_steps)] 

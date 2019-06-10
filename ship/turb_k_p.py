@@ -22,9 +22,8 @@ coefficients = Kappa.Coefficients(
   LS_model               = LS_model,
   RD_model               = RD_model,
   dissipation_model      = dissipation_model,
-  dissipation_model_flag = dissipation_model_flag,
-#1 -- K-epsilon, 2 -- K-omega 1998, 3 -- K-omega 1988
-  useMetrics             = useMetrics, #main_param.useMetrics,
+  dissipation_model_flag = dissipation_model_flag, # 1=K-epsilon, 2=K-omega 1998, 3=K-omega 1988
+  useMetrics             = useMetrics,             # main_param.useMetrics,
   rho_0                  = rho_0, # main_param
   nu_0                   = nu_0, # main_param
   rho_1                  = rho_1, # main_param

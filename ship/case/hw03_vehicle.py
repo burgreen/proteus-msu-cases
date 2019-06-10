@@ -26,8 +26,9 @@ useRANS    = 0      # 0 -- None # 1 -- K-Epsilon # 2 -- K-Omega
 
 # time stepping
 
-dt_fixed = 0.0001
-dt_fixed_steps = 1 
+dt_init = -0.0001
+dt_fixed = 0.01
+dt_fixed_steps = 2 
 
 # initial conditions
 
@@ -72,7 +73,7 @@ filename = 'mesh/pw-hw03.tetgen'
 
 mesh_nominal_spacing = 0.05
 
-bc_wall   = { 'type':'FreeSlip' }
+bc_wall   = { 'type':'freeSlip' }
 bc_open   = { 'type':'open' }
 bc_inlet  = { 'type':'velocityInlet_rans2p', 
               'Vmag':1.0,

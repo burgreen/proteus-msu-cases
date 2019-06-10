@@ -11,6 +11,8 @@ LevelModelType = RANS2P.LevelModel
 LS_model                = 2
 if modeVF < 2: LS_model = None
 
+print('modeVF=',modeVF)
+
 closure_0_model = None
 closure_1_model = None
 if useRANS >= 1:
@@ -19,7 +21,8 @@ if useRANS >= 1:
     if modeVF: closure_0_model = 2
     if modeVF: closure_1_model = 3
 
-coefficients = RANS2P.Coefficients(
+# 1-phase definition
+coefficients_2p = RANS2P.Coefficients(
   epsFact                = epsFact_viscosity,
   sigma                  = 0.0,
   rho_0                  = rho_0,
@@ -47,6 +50,29 @@ coefficients = RANS2P.Coefficients(
   turbulenceClosureModel = ns_closure
 )
 
+# 1-phase definition
+coefficients_1p = RANS2P.Coefficients(
+  epsFact              = epsFact_viscosity,
+  rho_0                = rho_0,
+  nu_0                 = nu_0,
+  rho_1                = rho_1,
+  nu_1                 = nu_1,
+  g                    = g,
+  nd                   = nd,
+  LS_model             = None,
+  epsFact_density      = epsFact_density,
+  stokes               = False,
+  #gwb forceStrongDirichlet = True,
+  forceStrongDirichlet = False,
+  eb_adjoint_sigma     = 1.0,
+  eb_penalty_constant  = 10.0,
+  useRBLES             = 0.0,
+  useMetrics           = 1.0
+)
+
+coefficients                           = coefficients_1p 
+if user_param.nphase > 1: coefficients = coefficients_2p 
+
 dirichletConditions = {
   0: lambda x,flag: domain.bc[domain.meshtag_bcIdx[flag]].p_dirichlet.init_cython(),
   1: lambda x,flag: domain.bc[domain.meshtag_bcIdx[flag]].u_dirichlet.init_cython(),
@@ -66,12 +92,13 @@ diffusiveFluxBoundaryConditions = {
   3: {3: lambda x,flag: domain.bc[domain.meshtag_bcIdx[flag]].w_diffusive.init_cython()} 
 }
 
-#fluxBoundaryConditions = {
-#  0: 'mixedFlow',
-#  1: 'mixedFlow',
-#  2: 'mixedFlow',
-#  3: 'mixedFlow'
-#}
+if user_param.nphase == 1: 
+  fluxBoundaryConditions = {
+    0: 'mixedFlow',
+    1: 'mixedFlow',
+    2: 'mixedFlow',
+    3: 'mixedFlow'
+  }
 
 p0 = user_param.IC_field_value['p']
 u0 = user_param.IC_field_value['u']

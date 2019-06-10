@@ -16,6 +16,8 @@ dissipation_model_flag = 1
 if user_param.useRANS == 2: dissipation_model_flag = 2
 if user_param.useRANS == 3: dissipation_model_flag = 3
 
+print('dissipation_model_flag =', dissipation_model_flag)
+
 coefficients = Dissipation.Coefficients(
     V_model     = 0 + int(movingDomain),
     ME_model    = ME_model,
