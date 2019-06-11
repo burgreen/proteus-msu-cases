@@ -33,11 +33,34 @@ dt_fixed_steps = 1
 # initial conditions
 
 waterLine_z = 0.0
-waterLine_z = -5.0
+#outlet_waterLine_z = 0.0
 
 def IC_signed_distance(x):
     phi_z = x[2]-waterLine_z 
+    #phi_y = x[1]-(-180.)
     return phi_z
+
+def signedDistance(x):
+    phi_z = x[1] - waterLine_z
+    ''' 
+    https://github.com/erdc/air-water-vv/blob/master/2d/hydraulicStructures/broad_crested_weir/broad_crested_weir.py
+    phi_x = x[0] - waterLine_x
+    phi_z = x[1] - waterLine_z
+    phi_z_outflow = x[1] - outflow_level
+    if phi_x <= 0.0:
+        if phi_z < 0.0:
+            return max(phi_x, phi_z)
+        else:
+            return phi_z
+    else:
+        if phi_z_outflow < 0.0:
+            return phi_z_outflow
+        else:
+            if phi_z < 0.0:
+                return min(phi_x, phi_z_outflow)
+            else:
+    return min(sqrt(phi_x ** 2 + phi_z ** 2), phi_z_outflow)
+    '''
 
 class IC_field_constant:
     def __init__(self,value): self.value = value
@@ -63,8 +86,8 @@ class IC_field_phi:
 
 IC_field_value = {}
 IC_field_value['p'] = 0.
-IC_field_value['u'] = 5.0
-IC_field_value['v'] = 0.
+IC_field_value['u'] = 0.
+IC_field_value['v'] = -10.0
 IC_field_value['w'] = 0.
 
 # mesh and BCs 
@@ -110,3 +133,12 @@ ele_fluid  = { 'type':'fluid' }
   
 ele_zone = {}
 ele_zone['fluid'] = { 'meshtag': 1, 'condition': ele_fluid }
+
+tols = {}
+tols['abs_tol_rans2p'] = 1.e-5
+tols['abs_tol_ls'    ] = 1.e-0
+tols['abs_tol_redist'] = 1.e-2
+tols['abs_tol_mcorr' ] = 1.e-2
+tols['abs_tol_vof'   ] = 1.e-2
+tols['abs_tol_turb_k'] = 1.e-5
+tols['abs_tol_turb_e'] = 1.e-5

@@ -110,3 +110,5 @@ ele_fluid  = { 'type':'fluid' }
   
 ele_zone = {}
 ele_zone['fluid'] = { 'meshtag': 1, 'condition': ele_fluid }
+
+tols = {}

@@ -1,5 +1,6 @@
-from proteus import *
-from ls_p    import *
+from proteus     import *
+from ls_p        import *
+from user_param  import *
 
 timeIntegration = BackwardEuler_cfl
 stepController  = Min_dt_controller
@@ -35,7 +36,14 @@ linearSolverConvergenceTest         = 'r-true'
 tolFac             = 0.0
 linTolFac          = 0.01
 l_atol_res         = 0.01*ls_nl_atol_res
-nl_atol_res        = ls_nl_atol_res
+nl_atol_res        = 1.00*ls_nl_atol_res
+l_atol_res         = 1.e-0;
+nl_atol_res        = 1.e-0;
+
+if 'abs_tol_ls' in user_param.tols: 
+  l_atol_res   = user_param.tols['abs_tol_ls']
+  nl_atol_res  = user_param.tols['abs_tol_ls']
+
 useEisenstatWalker = False
 
 maxNonlinearIts = 80

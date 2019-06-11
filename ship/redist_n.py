@@ -2,10 +2,15 @@ from proteus    import *
 from redist_p   import *
 from main_param import *
 
-nl_atol_res        = rd_nl_atol_res
 tolFac             = 0.0
 linTolFac          = 0.01
 l_atol_res         = 0.01*rd_nl_atol_res
+nl_atol_res        = rd_nl_atol_res
+
+if 'abs_tol_redist' in user_param.tols: 
+  l_atol_res   = user_param.tols['abs_tol_redist']
+  nl_atol_res  = user_param.tols['abs_tol_redist']
+
 useEisenstatWalker = False
 
 if redist_Newton:

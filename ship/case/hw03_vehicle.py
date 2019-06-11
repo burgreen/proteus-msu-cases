@@ -100,3 +100,5 @@ bc_zone['sw-w'] = { 'meshtag': 13, 'condition': bc_wall }
 ele_fluid  = { 'type':'fluid' }
 ele_zone = {}
 ele_zone['fluid'] = { 'meshtag': 1, 'condition': ele_fluid }
+
+tols = {}

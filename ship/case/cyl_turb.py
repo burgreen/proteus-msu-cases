@@ -29,7 +29,7 @@ useRANS    = 2      # 0 -- None # 1 -- K-Epsilon # 2 -- K-Omega
 
 dt_init  = 0.01
 dt_fixed = 0.01
-dt_fixed_steps = 2
+dt_fixed_steps = 20
 
 # initial conditions
 
@@ -112,3 +112,5 @@ ele_fluid  = { 'type':'fluid' }
   
 ele_zone = {}
 ele_zone['fluid'] = { 'meshtag': 1, 'condition': ele_fluid }
+
+tols = {}

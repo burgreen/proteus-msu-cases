@@ -3,6 +3,7 @@
 from proteus    import *
 from rans2p_p   import *
 from main_param import *
+from user_param import *
 
 timeIntegration = BackwardEuler_cfl
 stepController  = Min_dt_controller
@@ -41,6 +42,11 @@ tolFac             = 0.0
 linTolFac          = 0.01
 l_atol_res         = 0.01*vof_nl_atol_res
 nl_atol_res        = ns_nl_atol_res
+
+if 'abs_tol_rans2p' in user_param.tols: 
+  l_atol_res   = user_param.tols['abs_tol_rans2p']
+  nl_atol_res  = user_param.tols['abs_tol_rans2p']
+
 useEisenstatWalker = False
 maxNonlinearIts    = 50
 maxLineSearches    = 0
