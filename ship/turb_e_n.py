@@ -53,7 +53,7 @@ linearSolverConvergenceTest         = 'rits'
 
 tolFac             = 0.0
 linTolFac          = 0.0
-l_atol_res         = 0.001*dissipation_nl_atol_res
+l_atol_res         = 0.01*dissipation_nl_atol_res
 nl_atol_res        = dissipation_nl_atol_res
 
 if 'nl_atol_turb_e' in user_param.tols: 
@@ -61,5 +61,5 @@ if 'nl_atol_turb_e' in user_param.tols:
 
 useEisenstatWalker = False
 
-maxNonlinearIts = 50
+maxNonlinearIts = 25
 maxLineSearches = 0

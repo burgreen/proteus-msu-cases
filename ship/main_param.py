@@ -175,7 +175,7 @@ dissipation_nl_atol_res = tol_std
 
 #turbulence: 1-classic-smagorinsky, 2-dynamic-smagorinsky, 3-k-epsilon, 4-k-omega
 
-ns_closure = 2 
+ns_closure = 0 
 if useRANS == 1: ns_closure = 3
 if useRANS == 2: ns_closure = 4
 

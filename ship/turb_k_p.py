@@ -39,6 +39,7 @@ coefficients = Kappa.Coefficients(
   sc_beta                = kappa_sc_beta # main_param
 )
 
+'''
 dirichletConditions = {
   0: lambda x, flag: domain.bc[flag].k_dirichlet.init_cython()
 }
@@ -50,6 +51,19 @@ advectiveFluxBoundaryConditions = {
 diffusiveFluxBoundaryConditions = {
   0: {},
   1: {1: lambda x, flag: domain.bc[flag].k_diffusive.init_cython()}
+}
+'''
+
+dirichletConditions = {
+  0: lambda x,flag: domain.bc[domain.meshtag_bcIdx[flag]].k_dirichlet.init_cython()
+}
+
+advectiveFluxBoundaryConditions = {
+  0: lambda x,flag: domain.bc[domain.meshtag_bcIdx[flag]].k_advective.init_cython()
+}
+
+diffusiveFluxBoundaryConditions = {
+  0: { 0: lambda x,flag: domain.bc[domain.meshtag_bcIdx[flag]].k_diffusive.init_cython() }
 }
 
 turb_k = user_param.IC_field_value['turb_k']

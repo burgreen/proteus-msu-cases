@@ -10,19 +10,18 @@ def noSlip( bc, condition ):
     """
     bc.reset()
     bc.BC_type = 'noSlip'
-    print('================= bc=',bc )
 
     bc.u_dirichlet.setConstantBC(0.)
     bc.u_advective.uOfXT = None
-    bc.u_diffusive.setConstantBC(0.) # should be commented out 2019.06.05?
+    #bc.u_diffusive.setConstantBC(0.) # if enabled, no BL forms
 
     bc.v_dirichlet.setConstantBC(0.)
     bc.v_advective.uOfXT = None
-    bc.v_diffusive.setConstantBC(0.) # should be commented out 2019.06.05?
+    #bc.v_diffusive.setConstantBC(0.) # if enabled, no BL forms
 
     bc.w_dirichlet.setConstantBC(0.)
     bc.w_advective.uOfXT = None
-    bc.w_diffusive.setConstantBC(0.) # should be commented out 2019.06.05?
+    #bc.w_diffusive.setConstantBC(0.) # if enabled, no BL forms
 
     bc.vof_dirichlet.uOfXT = None
     bc.vof_advective.setConstantBC(0.)
@@ -30,7 +29,7 @@ def noSlip( bc, condition ):
 
     bc.k_dirichlet.setConstantBC(0.)
     #bc.k_advective.
-    bc.k_diffusive.setConstantBC(0.)
+    #bc.k_diffusive.setConstantBC(0.)
 
     bc.dissipation_dirichlet.setConstantBC(0.0375)  # works for k-omega model
     #bc.dissipation_advective.
