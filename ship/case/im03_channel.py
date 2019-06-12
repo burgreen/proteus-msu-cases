@@ -142,3 +142,11 @@ tols['abs_tol_redist'] = 1.e-2
 tols['abs_tol_mcorr' ] = 1.e-2
 tols['abs_tol_turb_k'] = 1.e-5
 tols['abs_tol_turb_e'] = 1.e-5
+
+tols['nl_atol_rans2p'] = 1.e-5
+tols['nl_atol_vof'   ] = 1.e-5
+tols['nl_atol_ls'    ] = 1.e-0
+tols['nl_atol_redist'] = 1.e-2
+tols['nl_atol_mcorr' ] = 1.e-2
+tols['nl_atol_turb_k'] = 1.e-5
+tols['nl_atol_turb_e'] = 1.e-5

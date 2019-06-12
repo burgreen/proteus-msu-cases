@@ -7,8 +7,8 @@ linTolFac          = 0.01
 l_atol_res         = 0.01*rd_nl_atol_res
 nl_atol_res        = rd_nl_atol_res
 
-if 'abs_tol_redist' in user_param.tols: 
-  nl_atol_res  = user_param.tols['abs_tol_redist']
+if 'nl_atol_redist' in user_param.tols: 
+  nl_atol_res  = user_param.tols['nl_atol_redist']
 
 useEisenstatWalker = False
 
@@ -29,7 +29,7 @@ else:
     psitc['reduceRatio']                = 3.0
     psitc['startRatio']                 = 1.0
     rtol_res[0]                         = 0.0
-    atol_res[0]                         = rd_nl_atol_res
+    atol_res[0]                         = nl_atol_res
     useEisenstatWalker                  = False
     maxNonlinearIts                     = 1
     maxLineSearches                     = 0

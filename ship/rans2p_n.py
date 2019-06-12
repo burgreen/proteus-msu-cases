@@ -40,11 +40,11 @@ linearSolverConvergenceTest         = 'r-true'
 
 tolFac             = 0.0
 linTolFac          = 0.01
-l_atol_res         = 0.01*vof_nl_atol_res
+l_atol_res         = 0.01*ns_nl_atol_res
 nl_atol_res        = ns_nl_atol_res
 
-if 'abs_tol_rans2p' in user_param.tols: 
-  nl_atol_res  = user_param.tols['abs_tol_rans2p']
+if 'nl_atol_rans2p' in user_param.tols: 
+  nl_atol_res  = user_param.tols['nl_atol_rans2p']
 
 useEisenstatWalker = False
 maxNonlinearIts    = 50

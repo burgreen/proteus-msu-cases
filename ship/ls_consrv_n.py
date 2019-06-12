@@ -38,8 +38,8 @@ linTolFac          = 0.01
 l_atol_res         = 0.01*mcorr_nl_atol_res
 nl_atol_res        = mcorr_nl_atol_res
 
-if 'abs_tol_mcorr' in user_param.tols: 
-  nl_atol_res  = user_param.tols['abs_tol_mcorr']
+if 'nl_atol_mcorr' in user_param.tols: 
+  nl_atol_res  = user_param.tols['nl_atol_mcorr']
 
 useEisenstatWalker = False
 

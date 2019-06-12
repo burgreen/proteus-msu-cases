@@ -15,13 +15,16 @@ print('modeVF=',modeVF)
 
 closure_0_model = None
 closure_1_model = None
-if useRANS >= 1:
+if useRANS > 0:
     closure_0_model = 5
     closure_1_model = 6
     if modeVF: closure_0_model = 2
     if modeVF: closure_1_model = 3
+    if user_param.nphase == 1: 
+      closure_0_model = 1
+      closure_1_model = 2
 
-# 1-phase definition
+# 2-phase definition
 coefficients_2p = RANS2P.Coefficients(
   epsFact                = epsFact_viscosity,
   sigma                  = 0.0,
@@ -33,10 +36,6 @@ coefficients_2p = RANS2P.Coefficients(
   nd                     = nd,
   VF_model               = 1,
   LS_model               = LS_model,
-
-  Closure_0_model        = closure_0_model,
-  Closure_1_model        = closure_1_model,
-
   epsFact_density        = epsFact_density,
   stokes                 = False,
   useVF                  = useVF,
@@ -47,6 +46,8 @@ coefficients_2p = RANS2P.Coefficients(
   eb_penalty_constant    = weak_bc_penalty_constant,
   forceStrongDirichlet   = ns_forceStrongDirichlet,
 
+  Closure_0_model        = closure_0_model,
+  Closure_1_model        = closure_1_model,
   turbulenceClosureModel = ns_closure
 )
 
@@ -67,7 +68,10 @@ coefficients_1p = RANS2P.Coefficients(
   eb_adjoint_sigma     = 1.0,
   eb_penalty_constant  = 10.0,
   useRBLES             = 0.0,
-  useMetrics           = 1.0
+  useMetrics           = 1.0,
+  Closure_0_model        = closure_0_model,
+  Closure_1_model        = closure_1_model,
+  turbulenceClosureModel = ns_closure
 )
 
 coefficients                           = coefficients_1p 

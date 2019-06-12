@@ -23,7 +23,7 @@ if nphase > 1: gravity = [0.,0.,-9.8]
 # input options    
 
 spaceOrder = 1
-useRANS    = 2      # 0 -- None # 1 -- K-Epsilon # 2 -- K-Omega
+useRANS    = 2   # 0=None # 1=K-Epsilon # 2=K-Omega
 
 # time stepping
 
