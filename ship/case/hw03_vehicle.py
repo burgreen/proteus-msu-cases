@@ -28,7 +28,7 @@ useRANS    = 0      # 0 -- None # 1 -- K-Epsilon # 2 -- K-Omega
 
 dt_init = -0.0001
 dt_fixed = 0.01
-dt_fixed_steps = 2 
+dt_fixed_steps = 12 
 
 # initial conditions
 

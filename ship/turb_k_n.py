@@ -59,7 +59,6 @@ l_atol_res         = 0.001*kappa_nl_atol_res
 nl_atol_res        = kappa_nl_atol_res
 
 if 'abs_tol_turb_k' in user_param.tols: 
-  l_atol_res   = user_param.tols['abs_tol_turb_k']
   nl_atol_res  = user_param.tols['abs_tol_turb_k']
 
 

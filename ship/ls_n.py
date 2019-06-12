@@ -41,7 +41,6 @@ l_atol_res         = 1.e-0;
 nl_atol_res        = 1.e-0;
 
 if 'abs_tol_ls' in user_param.tols: 
-  l_atol_res   = user_param.tols['abs_tol_ls']
   nl_atol_res  = user_param.tols['abs_tol_ls']
 
 useEisenstatWalker = False

@@ -40,7 +40,6 @@ l_atol_res         = 0.01*vof_nl_atol_res
 nl_atol_res        = vof_nl_atol_res
 
 if 'abs_tol_vof' in user_param.tols: 
-  l_atol_res   = user_param.tols['abs_tol_vof']
   nl_atol_res  = user_param.tols['abs_tol_vof']
 
 useEisenstatWalker = False

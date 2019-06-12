@@ -28,7 +28,7 @@ useRANS    = 0      # 0 -- None # 1 -- K-Epsilon # 2 -- K-Omega
 
 dt_init  = 0.0001
 dt_fixed = 0.0001
-dt_fixed_steps = 1 
+dt_fixed_steps = 0 
 
 # initial conditions
 
@@ -136,9 +136,9 @@ ele_zone['fluid'] = { 'meshtag': 1, 'condition': ele_fluid }
 
 tols = {}
 tols['abs_tol_rans2p'] = 1.e-5
+tols['abs_tol_vof'   ] = 1.e-5
 tols['abs_tol_ls'    ] = 1.e-0
 tols['abs_tol_redist'] = 1.e-2
 tols['abs_tol_mcorr' ] = 1.e-2
-tols['abs_tol_vof'   ] = 1.e-2
 tols['abs_tol_turb_k'] = 1.e-5
 tols['abs_tol_turb_e'] = 1.e-5

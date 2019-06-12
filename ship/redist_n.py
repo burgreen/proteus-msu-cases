@@ -8,7 +8,6 @@ l_atol_res         = 0.01*rd_nl_atol_res
 nl_atol_res        = rd_nl_atol_res
 
 if 'abs_tol_redist' in user_param.tols: 
-  l_atol_res   = user_param.tols['abs_tol_redist']
   nl_atol_res  = user_param.tols['abs_tol_redist']
 
 useEisenstatWalker = False
