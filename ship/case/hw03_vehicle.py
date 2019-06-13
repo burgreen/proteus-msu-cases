@@ -26,7 +26,7 @@ useRANS    = 0      # 0 -- None # 1 -- K-Epsilon # 2 -- K-Omega
 
 # time stepping
 
-dt_init = -0.0001
+dt_init = -0.0001 # negative values are ignored
 dt_fixed = 0.01
 dt_fixed_steps = 12 
 

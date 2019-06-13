@@ -34,11 +34,11 @@ levelNonlinearSolverConvergenceTest = 'r'
 linearSolverConvergenceTest         = 'r-true'
 
 tolFac             = 0.0
-linTolFac          = 0.01
-l_atol_res         = 0.01*ls_nl_atol_res
-nl_atol_res        = 1.00*ls_nl_atol_res
-l_atol_res         = 1.e-0;
-nl_atol_res        = 1.e-0;
+linTolFac          = 0.0
+l_atol_res         = 0.001*ls_nl_atol_res
+nl_atol_res        = 0.01*ls_nl_atol_res
+#l_atol_res         = 1.e-0;
+#nl_atol_res        = 1.e-0;
 
 if 'nl_atol_ls' in user_param.tols: 
   nl_atol_res  = user_param.tols['nl_atol_ls']

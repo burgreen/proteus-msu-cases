@@ -26,8 +26,8 @@ useRANS    = 0      # 0 -- None # 1 -- K-Epsilon # 2 -- K-Omega
 
 # time stepping
 
-dt_init  = 0.001
-dt_fixed = 0.001
+dt_init  = 0.00001
+dt_fixed = 0.0001
 dt_fixed_steps = 1 
 
 # initial conditions
@@ -75,7 +75,7 @@ v = IC_field_value['v']
 w = IC_field_value['w']
 Vmag = math.sqrt( u*u + v*v + w*w )
 
-bc_wall   = { 'type':'NoSlip' }
+bc_wall   = { 'type':'noSlip' }
 bc_inlet  = { 'type':'velocityInlet_rans2p', 
               'Vmag': Vmag,
               'sdf': IC_signed_distance,
@@ -108,7 +108,6 @@ bc_zone['z1']       = { 'meshtag': 8,  'condition': bc_open }
 
 filename = 'mesh/in01_5415.tetgen'
 mesh_nominal_spacing = 0.05
-bc_zone['interior'] = { 'meshtag': 1,  'condition': bc_interior }
 bc_zone['ship']     = { 'meshtag': 8,  'condition': bc_wall }
 bc_zone['x0']       = { 'meshtag': 2,  'condition': bc_inlet }
 bc_zone['x1']       = { 'meshtag': 3,  'condition': bc_outlet }
@@ -116,6 +115,7 @@ bc_zone['y0']       = { 'meshtag': 4,  'condition': bc_wall }
 bc_zone['y1']       = { 'meshtag': 5,  'condition': bc_wall }
 bc_zone['z0']       = { 'meshtag': 6,  'condition': bc_wall }
 bc_zone['z1']       = { 'meshtag': 7,  'condition': bc_open }
+bc_zone['interior'] = { 'meshtag': 1,  'condition': bc_interior }
   
 ele_fluid  = { 'type':'fluid' }
   

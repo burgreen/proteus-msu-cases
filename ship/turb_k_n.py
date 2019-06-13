@@ -53,8 +53,8 @@ linear_solver_options_prefix        = 'kappa_'
 levelNonlinearSolverConvergenceTest = 'rits'
 linearSolverConvergenceTest         = 'rits'
 
-tolFac             = 0.
-linTolFac          = 0.
+tolFac             = 0.0
+linTolFac          = 0.0
 l_atol_res         = 0.01*kappa_nl_atol_res
 nl_atol_res        = kappa_nl_atol_res
 

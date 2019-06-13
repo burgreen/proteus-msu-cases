@@ -31,10 +31,12 @@ if useSuperlu:  multilevelLinearSolver = LU
 if useSuperlu:  levelLinearSolver      = LU
 
 linear_solver_options_prefix = 'mcorr_'
+levelNonlinearSolverConvergenceTest = 'r' 
+levelNonlinearSolverConvergenceTest = 'rits' # for case cyl-2phase
 linearSolverConvergenceTest  = 'r-true'
 
 tolFac             = 0.0
-linTolFac          = 0.01
+linTolFac          = 0.0
 l_atol_res         = 0.01*mcorr_nl_atol_res
 nl_atol_res        = mcorr_nl_atol_res
 
@@ -43,5 +45,5 @@ if 'nl_atol_mcorr' in user_param.tols:
 
 useEisenstatWalker = False
 
-maxNonlinearIts = 50
+maxNonlinearIts = 25
 maxLineSearches = 0

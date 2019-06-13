@@ -114,5 +114,5 @@ ele_zone = {}
 ele_zone['fluid'] = { 'meshtag': 1, 'condition': ele_fluid }
 
 tols = {}
-tols['nl_atol_turb_k'] = 1.e-1
+#tols['nl_atol_turb_k'] = 1.e-1
 #tols['nl_atol_turb_e'] = 1.e-4
