@@ -106,7 +106,7 @@ bc_zone['z0']       = { 'meshtag': 7,  'condition': bc_wall }
 bc_zone['z1']       = { 'meshtag': 8,  'condition': bc_open }
 '''
 
-filename = 'mesh/in01_5415.tetgen'
+filename = 'mesh/in01_5415_1.tetgen'
 mesh_nominal_spacing = 0.05
 bc_zone['ship']     = { 'meshtag': 8,  'condition': bc_wall }
 bc_zone['x0']       = { 'meshtag': 2,  'condition': bc_inlet }
@@ -115,7 +115,7 @@ bc_zone['y0']       = { 'meshtag': 4,  'condition': bc_wall }
 bc_zone['y1']       = { 'meshtag': 5,  'condition': bc_wall }
 bc_zone['z0']       = { 'meshtag': 6,  'condition': bc_wall }
 bc_zone['z1']       = { 'meshtag': 7,  'condition': bc_open }
-bc_zone['interior'] = { 'meshtag': 1,  'condition': bc_interior }
+bc_zone['interior'] = { 'meshtag': 0,  'condition': bc_interior }
   
 ele_fluid  = { 'type':'fluid' }
   
@@ -123,3 +123,10 @@ ele_zone = {}
 ele_zone['fluid'] = { 'meshtag': 1, 'condition': ele_fluid }
 
 tols = {}
+tols['nl_atol_rans2p'] = 1.e-4
+tols['nl_atol_vof'   ] = 1.e-4
+tols['nl_atol_ls'    ] = 1.e-4
+tols['nl_atol_redist'] = 1.e-3 # a lot looser
+tols['nl_atol_mcorr' ] = 1.e-4
+tols['nl_atol_turb_k'] = 1.e-4
+tols['nl_atol_turb_e'] = 1.e-4
