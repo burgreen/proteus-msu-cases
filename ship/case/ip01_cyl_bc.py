@@ -660,7 +660,7 @@ def open( bc, condition ):
     bc.pInit_advective.uOfXT = None
     bc.pInit_diffusive.uOfXT = None
 
-def my_noSlip( bc, condition ):
+def noSlip( bc, condition ):
     """
     Sets no slip conditions at the boundary
     """
@@ -670,15 +670,15 @@ def my_noSlip( bc, condition ):
 
     bc.u_dirichlet.setConstantBC(0.)
     bc.u_advective.uOfXT = None
-    bc.u_diffusive.setConstantBC(0.) # should be commented out 2019.06.05?
+    #bc.u_diffusive.setConstantBC(0.) # should be commented out 2019.06.05?
 
     bc.v_dirichlet.setConstantBC(0.)
     bc.v_advective.uOfXT = None
-    bc.v_diffusive.setConstantBC(0.) # should be commented out 2019.06.05?
+    #bc.v_diffusive.setConstantBC(0.) # should be commented out 2019.06.05?
 
     bc.w_dirichlet.setConstantBC(0.)
     bc.w_advective.uOfXT = None
-    bc.w_diffusive.setConstantBC(0.) # should be commented out 2019.06.05?
+    #bc.w_diffusive.setConstantBC(0.) # should be commented out 2019.06.05?
 
     bc.vof_dirichlet.uOfXT = None
     bc.vof_advective.setConstantBC(0.)

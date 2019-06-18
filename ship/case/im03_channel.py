@@ -2,6 +2,7 @@
 
 import math
 from proteus import default_p
+from . import std_bc as std
 
 # fluid properties
 
@@ -120,14 +121,14 @@ bc_zone = {}
 
 filename = 'mesh/im03a.tetgen'
 
-bc_zone['interior'] = { 'meshtag': 0,  'condition': bc_interior }
-bc_zone['channel']  = { 'meshtag': 5,  'condition': bc_wall }
+bc_zone['interior'] = { 'meshtag': 0,  'condition': bc_interior, 'custom':std.interior }
+bc_zone['channel']  = { 'meshtag': 5,  'condition': bc_wall,     'custom':std.noSlip }
 bc_zone['inlet']    = { 'meshtag': 1,  'condition': bc_inlet }
-bc_zone['outlet']   = { 'meshtag': 2,  'condition': bc_outlet }
-bc_zone['side1']    = { 'meshtag': 6,  'condition': bc_wall }
-bc_zone['side2']    = { 'meshtag': 7,  'condition': bc_wall }
-bc_zone['ground']   = { 'meshtag': 4,  'condition': bc_wall }
-bc_zone['air']      = { 'meshtag': 3,  'condition': bc_open }
+bc_zone['outlet']   = { 'meshtag': 2,  'condition': bc_outlet,   'custom':std.outflow_rans2p }
+bc_zone['side1']    = { 'meshtag': 6,  'condition': bc_wall,     'custom':std.noSlip }
+bc_zone['side2']    = { 'meshtag': 7,  'condition': bc_wall,     'custom':std.noSlip }
+bc_zone['ground']   = { 'meshtag': 4,  'condition': bc_wall,     'custom':std.noSlip }
+bc_zone['air']      = { 'meshtag': 3,  'condition': bc_open,     'custom':std.open }
 
 ele_fluid  = { 'type':'fluid' }
   

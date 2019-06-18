@@ -2,7 +2,7 @@
 
 import math
 from proteus import default_p
-from . import ip01_cyl_bc
+from . import ip01_cyl_bc as custom
 
 # fluid properties
 
@@ -104,7 +104,7 @@ bc_zone['side1']    = { 'meshtag': 3,  'condition': bc_wall }
 bc_zone['side2']    = { 'meshtag': 4,  'condition': bc_wall }
 bc_zone['air']      = { 'meshtag': 5,  'condition': bc_open }
 bc_zone['ground']   = { 'meshtag': 6,  'condition': bc_wall }
-bc_zone['cylinder'] = { 'meshtag': 7,  'condition': bc_wall, 'custom': ip01_cyl_bc.my_noSlip }
+bc_zone['cylinder'] = { 'meshtag': 7,  'condition': bc_wall, 'custom': custom.noSlip }
 
 ele_fluid  = { 'type':'fluid' }
   

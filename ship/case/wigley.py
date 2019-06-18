@@ -28,7 +28,7 @@ useRANS    = 0      # 0 -- None # 1 -- k-e # 2 -- K-Omega
 
 dt_init  = 0.001
 dt_fixed = 0.001
-dt_fixed_steps = 50
+dt_fixed_steps = 0
 
 # initial conditions
 
@@ -92,8 +92,8 @@ v = IC_field_value['v']
 w = IC_field_value['w']
 Vmag = math.sqrt( u*u + v*v + w*w )
 
-bc_wall   = { 'type':'NoSlip' }
-bc_slip   = { 'type':'FreeSlip' }
+bc_wall   = { 'type':'noSlip' }
+bc_slip   = { 'type':'freeSlip' }
 bc_inlet  = { 'type':'velocityInlet_rans2p', 
               'Vmag': Vmag,
               'sdf': IC_signed_distance,
