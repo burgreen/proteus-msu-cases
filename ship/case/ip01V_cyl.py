@@ -22,13 +22,13 @@ if nphase > 1: gravity = [0.,0.,-9.8]
 # input options    
 
 spaceOrder = 1
-useRANS    = 0      # 0 -- None # 1 -- K-Epsilon # 2 -- K-Omega
+useRANS    = 2      # 0 -- None # 1 -- K-Epsilon # 2 -- K-Omega
 
 # time stepping
 
 dt_init  = 0.0001
-dt_fixed = 0.01
-dt_fixed_steps = 100
+dt_fixed = 0.001
+dt_fixed_steps = 2
 
 # initial conditions
 
@@ -65,6 +65,8 @@ IC_field_value['p'] = 0.
 IC_field_value['u'] = 1.0
 IC_field_value['v'] = 0.
 IC_field_value['w'] = 0.
+IC_field_value['turb_k'] = 0.001
+IC_field_value['turb_e'] = 0.001
 
 # mesh and BCs 
 

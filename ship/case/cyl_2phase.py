@@ -66,6 +66,8 @@ IC_field_value['p'] = 0.
 IC_field_value['u'] = 1.
 IC_field_value['v'] = 0.
 IC_field_value['w'] = 0.
+IC_field_value['turb_k'] = 0.001
+IC_field_value['turb_e'] = 0.001
 
 # mesh and BCs 
 
@@ -112,3 +114,4 @@ ele_zone = {}
 ele_zone['fluid'] = { 'meshtag': 1, 'condition': ele_fluid }
 
 tols = {}
+tols['nl_atol_redist'] = 1.e-3 # a lot looser

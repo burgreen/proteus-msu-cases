@@ -106,7 +106,7 @@ if useMetrics:
     ns_shockCapturingFactor  = 0.5
     ns_lag_shockCapturing = True
     ns_lag_subgridError = True
-    ls_shockCapturingFactor  = 0.0 # 0.5  change default for case cyl-2phase
+    ls_shockCapturingFactor  = 0.1 # 0.5  change default for case cyl-2phase
     ls_lag_shockCapturing = True
     ls_sc_uref  = 1.0
     ls_sc_beta  = 1.5
@@ -121,11 +121,11 @@ if useMetrics:
     epsFact_redistance = 0.33
     epsFact_consrv_diffusion = 10.0
     redist_Newton = True
-    kappa_shockCapturingFactor = 0.1 # 0.5
+    kappa_shockCapturingFactor = 0.0 # 0.5
     kappa_lag_shockCapturing = True
     kappa_sc_uref = 1.0
     kappa_sc_beta = 1.0
-    dissipation_shockCapturingFactor = 0.5 # 0.5
+    dissipation_shockCapturingFactor = 0.0 # 0.5 change for cyl-2phase-turb case
     dissipation_lag_shockCapturing = True
     dissipation_sc_uref = 1.0
     dissipation_sc_beta = 1.0

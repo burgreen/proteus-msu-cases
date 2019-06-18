@@ -69,7 +69,7 @@ IC_field_value['w'] = 0.
 
 # mesh and BCs 
 
-filename = 'mesh/cyl_01.tetgen'
+filename = 'mesh/cyl_02.tetgen'
 
 mesh_nominal_spacing = 0.05
 
@@ -97,14 +97,14 @@ bc_open = { 'type':'open' }
 bc_interior = { 'type':'interior' }
 
 bc_zone = {}
-bc_zone['interior'] = { 'meshtag': 0,  'condition': bc_interior }
-bc_zone['cyl']      = { 'meshtag': 7,  'condition': bc_wall, 'custom': custom.noSlip }
+bc_zone['cyl']      = { 'meshtag': 0,  'condition': bc_wall, 'custom': custom.noSlip }
 bc_zone['x0']       = { 'meshtag': 1,  'condition': bc_inlet }
 bc_zone['x1']       = { 'meshtag': 2,  'condition': bc_outlet }
 bc_zone['y0']       = { 'meshtag': 3,  'condition': bc_slip }
 bc_zone['y1']       = { 'meshtag': 4,  'condition': bc_slip }
 bc_zone['z0']       = { 'meshtag': 5,  'condition': bc_slip }
 bc_zone['z1']       = { 'meshtag': 6,  'condition': bc_slip }
+#bc_zone['interior'] = { 'meshtag': 0,  'condition': bc_interior }
   
 ele_fluid  = { 'type':'fluid' }
   
