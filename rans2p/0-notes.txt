@@ -7,15 +7,20 @@ Recommended usage:
 
 Put into the non-interactive section of your Scout $HOME/.bashrc file:
 
-alias setup_proteus_msu_scout='source /work/burgreen/proteus-msu/scout/1-module-load-proteus.sh'
-alias setup_proteus_erdc_scout='source /work/burgreen/proteus-erdc/scout/1-module-load-proteus.sh'
-alias build_proteus_scout='/work/burgreen/scout/proteus/stack-2019.04.19/scripts/build-proteus.sh'
+export scout_proteus_stack=/work/burgreen/scout/proteus/stack-2019.04.19
+export scout_proteus_msu=/work/burgreen/proteus-msu/scout
+export scout_proteus_erdc=/work/burgreen/proteus-erdc/scout
+
+alias setup_proteus_msu_scout='source $scout_proteus_msu/1-module-load-proteus.sh'
+alias setup_proteus_erdc_scout='source $scout_proteus_erdc/1-module-load-proteus.sh'
+alias build_proteus_scout='$scout_proteus_stack/scripts/build-proteus.sh'
 
 ---------------------------------------
 2. To run proteus-msu on scout
 
 git clone xxx://github.com/burgreen/proteus-msu-cases (where xxx = https or git)
 cd proteus-msu-cases
+cd rans2p
 cd mesh
 "tar xfv" whatever meshes you need into the mesh dir (ask Greg for specifics)
 cd ..
@@ -23,14 +28,13 @@ cd ..
 setup_proteus_msu_scout
 which parun
 
-For examples, run Proteus via one of the following:
+For example, run Proteus via one of the following:
+(where case file case/cyl_1phase.py must exist)
 
 ./1-run      cyl_1phase z-cyl-1phase           (for serial initial run)
 ./1-run      cyl_1phase z-cyl-1phase restart   (for serial restarted run)
 ./1-mpirun 3 cyl_1phase z-cyl-1phase           (for parallel initial run)
 ./1-mpirun 3 cyl_1phase z-cyl-1phase restart   (for parallel restarted run)
-
-where case file case/cyl_1phase.py must exist.
 
 ---------------------------------------
 3. To install your own version of Proteus (this is only needed for Proteus hardcore developers)

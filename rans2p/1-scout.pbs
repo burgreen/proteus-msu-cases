@@ -7,7 +7,7 @@
 #PBS -r n
 #PBS -V
 #PBS -m e
-#PBS -M your-email@gmail.com
+#PBS -M put-your-email-here@gmail.com
 #PBS -A 060803-360740
 
 #----------------------------------
@@ -19,7 +19,7 @@ export output_dir=z-cyl-1p
 export restart=no
 
 #source /work/burgreen/proteus-msu/scout/1-module-load-proteus.sh
-setup_proteus_msu_scout
+source $scout_proteus_msu/1-module-load-proteus.sh
 echo `which parun`
 
 cd $PBS_O_WORKDIR
