@@ -1,10 +1,11 @@
 #!/bin/bash
 
-if [ -z "$1" ]; then 
-  echo usage: $0 \<output_dir\> 
+if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ]; then 
+  echo usage: $0 \<num_processors\> \<case_name\> \<output_dir\>   
+  echo where \<case_name\> is a case file existing in the case dir
   echo where \<output_dir\> is the preferred name for proteus output
   echo
-  echo For example, $0 zoutput 
+  echo For example, $0 4 cyl_1phase z-cyl-1phase 
   exit
 fi
 
@@ -18,5 +19,15 @@ if ! which parun > /dev/null 2>&1; then
   exit
 fi
 
-mpirun -n 3 parun main.py -l 2 -v -O 2-petsc.options.asm -D $1
+echo from case import $2 as user_param > user_param.py
+
+if [ -z "$4" ]; then 
+  mpirun -n $1 parun main.py -l 2 -v -O 4-petsc.options -D $3
+else
+  if [ "$4" == "restart" ]; then 
+    mpirun -n $1 parun main.py -l 2 -v -O 4-petsc.options -D $3 -H
+  else
+    echo Option is not supported: $4
+  fi
+fi
 
