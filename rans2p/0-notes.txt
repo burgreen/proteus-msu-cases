@@ -7,7 +7,7 @@ Recommended usage:
 
 Put into the non-interactive section of your Scout $HOME/.bashrc file:
 
-export scout_proteus_stack=/work/burgreen/scout/proteus/stack-2019.04.19
+export scout_proteus_stack=/work/burgreen/scout/proteus/stack-2019.04.12
 export scout_proteus_msu=/work/burgreen/proteus-msu/scout
 export scout_proteus_erdc=/work/burgreen/proteus-erdc/scout
 
