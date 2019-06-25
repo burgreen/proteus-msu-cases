@@ -11,6 +11,10 @@ dissipation_model_flag = 1
 if user_param.useRANS == 2: dissipation_model_flag = 2
 if user_param.useRANS == 3: dissipation_model_flag = 3
 
+gravity = numpy.array([user_param.gravity[0],
+                      user_param.gravity[1],
+                      user_param.gravity[2]], dtype='d'),
+
 RD_model          = None
 LS_model          = None
 ME_model          = 1
@@ -28,10 +32,7 @@ coefficients = Kappa.Coefficients(
   nu_0                   = nu_0, # main_param
   rho_1                  = rho_1, # main_param
   nu_1                   = nu_1, # main_param
-  #g                     = gravity, # main_param
-  g                      = numpy.array([user_param.gravity[0],
-                                        user_param.gravity[1],
-                                        user_param.gravity[2]], dtype='d'),
+  g                      = gravity, 
   nd                     = nd, #main_param.nd,
   c_mu                   = 0.09,
   sigma_k                = 1.0,

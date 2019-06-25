@@ -31,20 +31,17 @@ if useSuperlu:  multilevelLinearSolver = LU
 if useSuperlu:  levelLinearSolver      = LU
 
 linear_solver_options_prefix        = 'vof_'
-levelNonlinearSolverConvergenceTest = 'r'
+levelNonlinearSolverConvergenceTest = user_param.knob['vof']['nl_test']
 linearSolverConvergenceTest         = 'r-true'
 
 tolFac             = 0.0
 linTolFac          = 0.0
 l_atol_res         = 0.01*vof_nl_atol_res
-nl_atol_res        = vof_nl_atol_res
-
-if 'nl_atol_vof' in user_param.tols: 
-  nl_atol_res  = user_param.tols['nl_atol_vof']
+nl_atol_res        = min( vof_nl_atol_res, user_param.knob['vof']['nl_atol'] )
 
 useEisenstatWalker = False
 
-maxNonlinearIts = 50
+maxNonlinearIts = user_param.knob['vof']['nl_its']
 maxLineSearches = 0
 
 #----- gwb mods

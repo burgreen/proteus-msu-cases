@@ -7,6 +7,7 @@ from   proteus            import Domain
 from   proteus.msu        import MeshFileDomain
 from   proteus.default_n  import *   
 from   proteus.Profiling  import logEvent
+from   case               import std_knob as std_knob
 from   user_param         import *
 
 # Discretization -- input options    
@@ -98,35 +99,50 @@ dt_fixed_steps = user_param.dt_fixed_steps
 
 # Numerical parameters
 
+print('---------------------------------------')
+print(' case-specific knob values')
+for e in user_param.knob.keys():
+  for v in user_param.knob[e].keys():
+    if user_param.knob[e][v] != std_knob.knob[e][v]: 
+      print('  knob['+e+']['+v+'] = ', user_param.knob[e][v] )
+print('---------------------------------------')
+
 ns_forceStrongDirichlet = False
 
 if useMetrics:
-    ns_shockCapturingFactor  = 0.5
-    ns_lag_shockCapturing = True
-    ns_lag_subgridError = True
-    ls_shockCapturingFactor  = 0.0 # 0.5  change default for case cyl-2phase
-    ls_lag_shockCapturing = True
-    ls_sc_uref  = 1.0
-    ls_sc_beta  = 1.5
-    vof_shockCapturingFactor = 0.5
-    vof_lag_shockCapturing = True
-    vof_sc_uref = 1.0
-    vof_sc_beta = 1.5
-    rd_shockCapturingFactor  = 0.5
-    rd_lag_shockCapturing = False
-    epsFact_density    = 1.5
-    epsFact_viscosity  = epsFact_curvature  = epsFact_vof = epsFact_consrv_heaviside = epsFact_consrv_dirac = epsFact_density
-    epsFact_redistance = 0.33
-    epsFact_consrv_diffusion = 10.0
-    redist_Newton = True
-    kappa_shockCapturingFactor = 0.1 # 0.5
-    kappa_lag_shockCapturing = True
-    kappa_sc_uref = 1.0
-    kappa_sc_beta = 1.0
-    dissipation_shockCapturingFactor = 0.5 # 0.5
-    dissipation_lag_shockCapturing = True
-    dissipation_sc_uref = 1.0
-    dissipation_sc_beta = 1.0
+    ns_shockCapturingFactor = user_param.knob['ns']['sc_fac']
+    ns_lag_shockCapturing   = user_param.knob['ns']['sc_lag']
+    ns_lag_subgridError     = user_param.knob['ns']['sge_lag']
+
+    ls_shockCapturingFactor = user_param.knob['ls']['sc_fac']
+    ls_lag_shockCapturing   = user_param.knob['ls']['sc_lag']
+    ls_sc_uref              = user_param.knob['ls']['sc_uref']
+    ls_sc_beta              = user_param.knob['ls']['sc_beta']
+
+    vof_shockCapturingFactor = user_param.knob['vof']['sc_fac']
+    vof_lag_shockCapturing   = user_param.knob['vof']['sc_lag']
+    vof_sc_uref              = user_param.knob['vof']['sc_uref']
+    vof_sc_beta              = user_param.knob['vof']['sc_beta']
+
+    rd_shockCapturingFactor  = user_param.knob['rd']['sc_fac']
+    rd_lag_shockCapturing    = user_param.knob['rd']['sc_lag']
+    redist_Newton            = user_param.knob['rd']['newton']
+
+    kappa_shockCapturingFactor = user_param.knob['turb_k']['sc_fac']
+    kappa_lag_shockCapturing   = user_param.knob['turb_k']['sc_lag']
+    kappa_sc_uref              = user_param.knob['turb_k']['sc_uref']
+    kappa_sc_beta              = user_param.knob['turb_k']['sc_beta']
+
+    dissipation_shockCapturingFactor = user_param.knob['turb_e']['sc_fac']
+    dissipation_lag_shockCapturing   = user_param.knob['turb_e']['sc_lag']
+    dissipation_sc_uref              = user_param.knob['turb_e']['sc_uref']
+    dissipation_sc_beta              = user_param.knob['turb_e']['sc_beta']
+
+    epsFact_density    = user_param.knob['epsFact']['std']
+    epsFact_viscosity  = epsFact_curvature = epsFact_vof = epsFact_consrv_heaviside = epsFact_consrv_dirac = epsFact_density
+    epsFact_redistance = user_param.knob['epsFact']['rd']
+    epsFact_consrv_diffusion = user_param.knob['epsFact']['consrv_diffusion']
+
 else:
     ns_shockCapturingFactor  = 0.9
     ns_lag_shockCapturing = True
@@ -158,8 +174,6 @@ else:
 
 tol_std = max( 1.0e-8, 0.1*he**2/2.0 )
 tol_rd  = max( 1.0e-8, 0.1*he )
-tol_std = 1.0e-6
-tol_rd  = 1.0e-6
 tol_std = 1.0e-5
 tol_rd  = 1.0e-5
 

@@ -19,7 +19,7 @@ coefficients = NCLS.Coefficients(
 
 
 dirichletConditions = {
-  0: lambda x,flag: None
+  0: lambda x,flag: domain.bc[domain.meshtag_bcIdx[flag]].clsvof_dirichlet.init_cython()
 }
 
 advectiveFluxBoundaryConditions = {

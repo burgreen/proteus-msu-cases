@@ -7,101 +7,8 @@ import sys
 #from proteus.mprans import BoundaryConditions as bc
 #from proteus import Domain
 from proteus.ctransportCoefficients import smoothedHeaviside
+from proteus.ctransportCoefficients import smoothedHeaviside_integral
 from proteus import default_p
-
-def nonMaterial( bc, condition ):
-    """
-    Sets non-material boundary conditions (diffusive flux and advective vof to 0.).
-    """
-    bc.reset()
-    bc.BC_type = 'NonMaterial'
-    bc.vof_advective.setConstantBC(0.)
-    bc.vos_advective.setConstantBC(0.)
-    bc.u_diffusive.setConstantBC(0.)
-    bc.v_diffusive.setConstantBC(0.)
-    bc.w_diffusive.setConstantBC(0.)
-    bc.us_diffusive.setConstantBC(0.)
-    bc.vs_diffusive.setConstantBC(0.)
-    bc.ws_diffusive.setConstantBC(0.)
-    bc.k_diffusive.setConstantBC(0.)
-    bc.dissipation_diffusive.setConstantBC(0.)
-    bc.pInc_diffusive.setConstantBC(0.)
-
-def outflow( bc, condition ):
-    """
-    Sets outflow bc
-    """
-    bc.reset()
-
-    def constant(c):
-        def function(x,t): return c
-        return function
-
-    bc.p_dirichlet.setConstantBC(0.)
-    bc.u_diffusive.setConstantBC(0.)
-    bc.v_diffusive.setConstantBC(0.)
-    bc.w_diffusive.setConstantBC(0.)
-    #bc.u_advective.setConstantBC(0.)
-    #bc.v_advective.setConstantBC(0.)
-    #bc.w_advective.setConstantBC(0.)
-
-    bc.k_dirichlet.uOfXT = constant(0.)
-    bc.k_advective.uOfXT = None
-    bc.k_diffusive.uOfXT = constant(0.)
-
-    bc.dissipation_dirichlet.uOfXT = constant(0.)
-    bc.dissipation_advective.uOfXT = None
-    bc.dissipation_diffusive.uOfXT = constant(0.)
-
-    #Vmag = 0.
-    #if 'Vmag' in condition: Vmag = condition['Vmag']
-    #bc.p_advective.setConstantBC(Vmag)
-
-    if 'p'    in condition: bc.p_dirichlet.setConstantBC(condition['p'])
-    if 'p_xt' in condition: bc.p_dirichlet.uOfXT = condition['p_xt']
-    #set pInit and Pinc??
-
-def velocityInlet( bc, condition ):
-    """
-    Sets velocity inlet bc
-    """
-    bc.reset()
-
-    normal = condition['_normal']
-
-    Vmag = 0.
-    if 'Vmag' in condition: Vmag = condition['Vmag']
-
-    turb_k = 0.
-    turb_e = 0.
-    if 'turb_k' in condition: turb_k = condition['turb_k']
-    if 'turb_e' in condition: turb_e = condition['turb_e']
-
-    def constant(c):
-        def function(x,t): return c
-        return function
-
-    bc.u_dirichlet.setConstantBC(Vmag*normal[0])
-    bc.v_dirichlet.setConstantBC(Vmag*normal[1])
-    bc.w_dirichlet.setConstantBC(Vmag*normal[2])
-
-    if 'u_xt' in condition: bc.u_dirichlet.uOfXT = condition['u_xt']
-    if 'v_xt' in condition: bc.v_dirichlet.uOfXT = condition['v_xt']
-    if 'w_xt' in condition: bc.w_dirichlet.uOfXT = condition['w_xt']
-
-    bc.k_dirichlet.uOfXT = constant(turb_k)
-    #bc.k_advective.
-    bc.k_diffusive.uOfXT = constant(0.)
-
-    bc.dissipation_dirichlet.uOfXT = constant(turb_e)
-    #bc.dissipation_advective.
-    bc.dissipation_diffusive.uOfXT = constant(0.)
-
-    bc.p_advective.setConstantBC(-Vmag)
-
-    if 'flux_xt' in condition: bc.p_advective.uOfXT = condition['flux_xt']
-    
-    #set pInit and Pinc??
 
 def velocityInlet_rans2p( bc, condition ):
     """
@@ -109,11 +16,13 @@ def velocityInlet_rans2p( bc, condition ):
     """
     bc.reset()
 
-    normal = condition['_normal']
+    normal  = condition['_normal']
+    epsFact = condition['epsFact']
+    he      = condition['smoothing']
 
     Vmag = 0.
     if 'Vmag' in condition: Vmag = condition['Vmag']
-    Vmag_air   = Vmag*0
+    Vmag_air   = Vmag*1
     Vmag_water = Vmag
 
     turb_k = 0.
@@ -150,9 +59,10 @@ def velocityInlet_rans2p( bc, condition ):
             #    H = smoothedHeaviside(smoothing, phi)
             #elif phi <= -smoothing:
             #    H = 0.
-            H = 1.
-            if phi <= 0.: H = 0.
-            vof = H * phi_air + (1-H) * phi_water
+            #H = 1.
+            #if phi <= 0.: H = 0.
+            #vof = H * phi_air + (1-H) * phi_water
+            vof = smoothedHeaviside( epsFact*he, phi )
             return vof
 
     def p_advective(x,t):
@@ -171,6 +81,10 @@ def velocityInlet_rans2p( bc, condition ):
             #u_p = np.sum(u * np.abs(b_or))
             #return -u_p
             return -u
+
+    def ls_dirichlet(x,t):
+            phi = sdf(x)
+            return phi
 
     def constant(c):
         def function(x,t): return c
@@ -192,6 +106,8 @@ def velocityInlet_rans2p( bc, condition ):
     if 'v_xt' in condition: bc.v_dirichlet.uOfXT = condition['v_xt']
     if 'w_xt' in condition: bc.w_dirichlet.uOfXT = condition['w_xt']
 
+    bc.clsvof_dirichlet.uOfXT = ls_dirichlet
+
     bc.k_dirichlet.uOfXT = constant(turb_k)
     #bc.k_advective.
     #bc.k_diffusive.
@@ -201,7 +117,7 @@ def velocityInlet_rans2p( bc, condition ):
     #bc.dissipation_diffusive.
 
     bc.vof_dirichlet.uOfXT = vof_dirichlet
-    bc.vof_advective.uOfXT = constant(0.)
+    bc.vof_advective.uOfXT = None
     ##.vof_diffusive.uOfXT = does not exist
 
     bc.p_dirichlet.uOfXT = None
@@ -220,8 +136,10 @@ def outflow_rans2p( bc, condition ):
     fluid      = condition['fluid']
     gravity    = condition['gravity']
     waterLevel = condition['waterLevel']
-    smoothing  = 0.05 
-    fac        = 0.1 
+    axis       = condition['gravity_axis']
+    epsFact    = condition['epsFact']
+    he         = condition['smoothing']
+    fac        = 1.0 
 
     rho_air   = fluid['air']['rho']
     rho_water = fluid['water']['rho']
@@ -230,7 +148,7 @@ def outflow_rans2p( bc, condition ):
     phi_air   = fluid['air']['phi']
     phi_water = fluid['water']['phi']
 
-    def p_dirichlet(x,t):  # assumes a constant fixed fluid height at the outlet
+    def old_p_dirichlet(x,t):  # assumes a constant fixed fluid height at the outlet
         g_component = gravity[2]
         p_air   = rho_air    * g_component * ( default_p.L[2] - waterLevel )
         p_water = rho_water  * g_component * ( waterLevel - x[2] )
@@ -238,6 +156,14 @@ def outflow_rans2p( bc, condition ):
         #if sdf(x) < 0: p_hydrostatic = p_water
         if x[2] < waterLevel: p_hydrostatic = p_water
         return -p_hydrostatic
+
+    def p_dirichlet(x,t):
+      p_L = default_p.L[axis]*rho_air*gravity[axis]
+      phi_L = default_p.L[axis] - waterLevel
+      phi = x[axis] - waterLevel
+      return p_L - gravity[axis]*(  rho_water*(phi_L - phi)
+                                  + (rho_air -rho_water)*(smoothedHeaviside_integral(epsFact*he,phi_L)
+                                                         -smoothedHeaviside_integral(epsFact*he,phi)))
 
     def u_diffusive(x,t):
         g = p_dirichlet(x,t)
@@ -252,12 +178,14 @@ def outflow_rans2p( bc, condition ):
 
     def vof_dirichlet(x,t):
         phi = sdf(x)
-        if phi >= smoothing: H = 1.
-        elif -smoothing < phi < smoothing: H = smoothedHeaviside(smoothing, phi)
-        elif phi <= -smoothing: H = 0.
+        #if phi >= smoothing: H = 1.
+        #elif -smoothing < phi < smoothing: H = smoothedHeaviside(smoothing, phi)
+        #elif phi <= -smoothing: H = 0.
         #H = 1.
         #if phi <= 0.: H = 0.
-        return H * phi_air + (1-H) * phi_water
+        #return H * phi_air + (1-H) * phi_water
+        vof = smoothedHeaviside( epsFact*he, phi )
+        return vof
 
     def constant(c):
         def function(x,t): return c
@@ -265,7 +193,8 @@ def outflow_rans2p( bc, condition ):
 
     bc.u_dirichlet.uOfXT = constant(0.)
     bc.u_advective.uOfXT = None
-    bc.u_diffusive.uOfXT = u_diffusive # some level is needed for stability
+    #bc.u_diffusive.uOfXT = u_diffusive # some level is needed for stability
+    bc.u_diffusive.uOfXT = constant(0.)
 
     bc.v_dirichlet.uOfXT = constant(0.)
     bc.v_advective.uOfXT = None
@@ -278,6 +207,8 @@ def outflow_rans2p( bc, condition ):
     bc.k_dirichlet.uOfXT = constant(0.)
     bc.k_advective.uOfXT = None
     bc.k_diffusive.uOfXT = constant(0.)
+
+    bc.clsvof_dirichlet.uOfXT = None
 
     bc.dissipation_dirichlet.uOfXT = constant(0.)
     bc.dissipation_advective.uOfXT = None
@@ -320,19 +251,24 @@ def freeSlip( bc, condition ):
     Sets free slip conditions at the boundary
     '''
     bc.reset()
-    bc.BC_type = 'freeSlip'
+
+    def constant(c):
+        def function(x,t): return c
+        return function
 
     bc.u_dirichlet.uOfXT = None
-    bc.u_advective.uOfXT = None
-    bc.u_diffusive.setConstantBC(0.) 
+    bc.u_advective.uOfXT = constant(0.)
+    bc.u_diffusive.uOfXT = constant(0.)
 
     bc.v_dirichlet.uOfXT = None
-    bc.v_advective.uOfXT = None
-    bc.v_diffusive.setConstantBC(0.)
+    bc.v_advective.uOfXT = constant(0.)
+    bc.v_diffusive.uOfXT = constant(0.)
 
     bc.w_dirichlet.uOfXT = None
-    bc.w_advective.uOfXT = None
-    bc.w_diffusive.setConstantBC(0.)
+    bc.w_advective.uOfXT = constant(0.)
+    bc.w_diffusive.uOfXT = constant(0.)
+
+    bc.clsvof_dirichlet.uOfXT = None
 
     bc.vof_dirichlet.uOfXT = None
     bc.vof_advective.setConstantBC(0.)
@@ -369,183 +305,6 @@ def freeSlip( bc, condition ):
     bc.vs_diffusive.setConstantBC(0.)
     bc.ws_diffusive.setConstantBC(0.)
 
-def velocityInlet_rans3p( bc, condition ):
-    """
-    Sets velocity inlet bc for rans3p flows
-    """
-    bc.reset()
-
-    normal = condition['_normal']
-
-    Vmag = 0.
-    if 'Vmag' in condition: Vmag = condition['Vmag']
-    Vmag_air   = Vmag*0
-    Vmag_water = Vmag
-
-    sdf   = condition['sdf']
-    fluid = condition['fluid']
-    smoothing = condition['smoothing']
-
-    phi_air   = fluid['air']['phi']
-    phi_water = fluid['water']['phi']
-
-    def vel_dirichlet(i):
-            def dirichlet(x,t):
-                phi = sdf(x)
-                if phi >= smoothing: H = 1.
-                elif -smoothing < phi < smoothing: H = smoothedHeaviside(smoothing, phi)
-                elif phi <= -smoothing: H = 0.
-                #H = 1.
-                #if phi <= 0.: H = 0.
-                vel = H * Vmag_air*normal[i] + (1-H) * Vmag_water*normal[i]
-                return vel
-            return dirichlet
-
-    def vof_dirichlet(x,t):
-            phi = sdf(x)
-            if phi >= smoothing: H = 1.
-            elif -smoothing < phi < smoothing: H = smoothedHeaviside(smoothing, phi)
-            elif phi <= -smoothing: H = 0.
-            #H = 1.
-            #if phi <= 0.: H = 0.
-            vof = H * phi_air + (1-H) * phi_water
-            return vof
-
-    def p_advective(x,t):
-            phi = sdf(x)
-            if phi >= smoothing: H = 1.
-            elif -smoothing < phi < smoothing: H = smoothedHeaviside(smoothing, phi)
-            elif phi <= -smoothing: H = 0.
-            #H = 1.
-            #if phi <= 0.: H = 0.
-            u = H * Vmag_air + (1-H) * Vmag_water
-            # This is the normal velocity, based on the inwards boundary
-            # orientation -b_or
-            #u_p = np.sum(u * np.abs(b_or))
-            #return -u_p
-            return -u
-
-    def constant(c):
-            def function(x,t): return c
-            return function
-
-    bc.u_dirichlet.uOfXT = vel_dirichlet(0)
-    bc.u_advective.uOfXT = None
-    bc.u_diffusive.uOfXT = constant(0.)
-
-    bc.v_dirichlet.uOfXT = vel_dirichlet(1)
-    bc.v_advective.uOfXT = None
-    bc.v_diffusive.uOfXT = constant(0.)
-
-    bc.w_dirichlet.uOfXT = vel_dirichlet(2)
-    bc.w_advective.uOfXT = None
-    bc.w_diffusive.uOfXT = constant(0.)
-
-    if 'u_xt' in condition: bc.u_dirichlet.uOfXT = condition['u_xt']
-    if 'v_xt' in condition: bc.v_dirichlet.uOfXT = condition['v_xt']
-    if 'w_xt' in condition: bc.w_dirichlet.uOfXT = condition['w_xt']
-
-    # which dirichlet??
-    bc.vof_dirichlet.uOfXT = vof_dirichlet
-    ##.vof_dirichlet.uOfXT = None
-    bc.vof_advective.uOfXT = constant(0.)
-    ##.vof_diffusive.uOfXT = does not exist
-
-    bc.p_dirichlet.uOfXT = None
-    bc.p_advective.uOfXT = constant(0.)
-    ##.p_diffusive.uOfXT = does not exist
-
-    if 'flux_xt' in condition: bc.p_advective.uOfXT = condition['flux_xt']
-
-    bc.pInc_dirichlet.uOfXT = None
-    bc.pInc_advective.uOfXT = p_advective
-    bc.pInc_diffusive.uOfXT = constant(0.)
-
-    bc.pInit_dirichlet.uOfXT = None
-    bc.pInit_advective.uOfXT = constant(0.)
-    bc.pInit_diffusive.uOfXT = constant(0.)
-    
-def outflow_rans3p( bc, condition ):
-    """
-    Sets outflow bc for twoPhase flows
-    """
-    bc.reset()
-
-    sdf        = condition['sdf']
-    fluid      = condition['fluid']
-    gravity    = condition['gravity']
-    waterLevel = condition['waterLevel']
-    smoothing  = condition['smoothing']
-
-    rho_air   = fluid['air']['rho']
-    rho_water = fluid['water']['rho']
-    mu_air    = fluid['air']['mu']
-    mu_water  = fluid['water']['mu']
-    phi_air   = fluid['air']['phi']
-    phi_water = fluid['water']['phi']
-
-    def p_dirichlet(x,t):  # assumes a constant fixed fluid height at the outlet
-        g_component = gravity[2]
-        p_air   = rho_air    * g_component * ( default_p.L[2] - waterLevel )
-        p_water = rho_water  * g_component * ( waterLevel - x[2] )
-        p_hydrostatic = p_air
-        #if phi >= smoothing: H = 1.
-        #elif -smoothing < phi < smoothing: H = smoothedHeaviside(smoothing, phi)
-        #elif phi <= -smoothing: H = 0.
-        if sdf(x) < 0: p_hydrostatic += p_water
-        return -p_hydrostatic
-
-    def u_diffusive(x,t):
-        g = p_dirichlet(x,t)
-        phi = sdf(x)
-        if phi >= smoothing: H = 1.
-        elif -smoothing < phi < smoothing: H = smoothedHeaviside(smoothing, phi)
-        elif phi <= -smoothing: H = 0.
-        #H = 1.
-        #if phi <= 0.: H = 0.
-        return H*(mu_air)*g + (1-H)*(mu_water)*g
-
-    def vof_dirichlet(x,t):
-        phi = sdf(x)
-        if phi >= smoothing: H = 1.
-        elif -smoothing < phi < smoothing: H = smoothedHeaviside(smoothing, phi)
-        elif phi <= -smoothing: H = 0.
-        #H = 1.
-        #if phi <= 0.: H = 0.
-        return H * phi_air + (1-H) * phi_water
-
-    def constant(c):
-        def function(x,t): return c
-        return function
-
-    bc.u_dirichlet.uOfXT = constant(0.)
-    bc.u_advective.uOfXT = None
-    bc.u_diffusive.uOfXT = u_diffusive
-
-    bc.v_dirichlet.uOfXT = constant(0.)
-    bc.v_advective.uOfXT = None
-    bc.v_diffusive.uOfXT = constant(0.)
-
-    bc.w_dirichlet.uOfXT = constant(0.)
-    bc.w_advective.uOfXT = None
-    bc.w_diffusive.uOfXT = constant(0.)
-
-    bc.vof_dirichlet.uOfXT = vof_dirichlet
-    bc.vof_advective.uOfXT = None
-    ##.vof_diffusive.uOfXT = does not exist
-
-    bc.p_dirichlet.uOfXT = p_dirichlet
-    bc.p_advective.uOfXT = None
-    ##.p_diffusive.uOfXT = does not exist
-
-    bc.pInc_dirichlet.uOfXT = constant(0.)
-    bc.pInc_advective.uOfXT = None
-    bc.pInc_diffusive.uOfXT = None
-    
-    bc.pInit_dirichlet.uOfXT = p_dirichlet
-    bc.pInit_advective.uOfXT = None
-    bc.pInit_diffusive.uOfXT = None
-
 def interior( bc, condition ):
     """
     Sets interior bc for rans3p flows
@@ -568,18 +327,48 @@ def interior( bc, condition ):
     bc.k_diffusive.setConstantBC(0.)
     bc.dissipation_diffusive.setConstantBC(0.)
 
+    bc.clsvof_dirichlet.uOfXT = None
+
     bc.vof_advective.setConstantBC(0.)
     bc.vos_advective.setConstantBC(0.)
 
 def open( bc, condition ):
     """
-    Sets open air bc for rans3p flows
+    Sets open air bc 
     """
     bc.reset()
 
     def constant(c):
         def function(x,t): return c
         return function
+
+    fluid      = condition['fluid']
+    sdf        = condition['sdf']
+    gravity    = condition['gravity']
+    waterLevel = condition['waterLevel']
+    axis       = condition['gravity_axis']
+    epsFact    = condition['epsFact']
+    he         = condition['smoothing']
+    fac        = 1.0 
+
+    rho_air   = fluid['air']['rho']
+    rho_water = fluid['water']['rho']
+    mu_air    = fluid['air']['mu']
+    mu_water  = fluid['water']['mu']
+    phi_air   = fluid['air']['phi']
+    phi_water = fluid['water']['phi']
+
+    def p_dirichlet(x,t):
+      p_L = default_p.L[axis]*rho_air*gravity[axis]
+      phi_L = default_p.L[axis] - waterLevel
+      phi = x[axis] - waterLevel
+      return p_L - gravity[axis]*(  rho_water*(phi_L - phi)
+                                  + (rho_air -rho_water)*(smoothedHeaviside_integral(epsFact*he,phi_L)
+                                                         -smoothedHeaviside_integral(epsFact*he,phi)))
+    def vof_dirichlet(x,t):
+        phi = sdf(x)
+        vof = smoothedHeaviside( epsFact*he, phi )
+        return vof
 
     bc.u_dirichlet.uOfXT = None
     bc.u_advective.uOfXT = None
@@ -593,11 +382,13 @@ def open( bc, condition ):
     bc.w_advective.uOfXT = None
     bc.w_diffusive.uOfXT = constant(0.)
 
-    bc.vof_dirichlet.uOfXT = constant(0.)
+    bc.clsvof_dirichlet.uOfXT = None
+
+    bc.vof_dirichlet.uOfXT = vof_dirichlet
     bc.vof_advective.uOfXT = None
     ##.vof_diffusive.uOfXT = does not exist
 
-    bc.p_dirichlet.uOfXT = constant(0.)
+    bc.p_dirichlet.uOfXT = p_dirichlet
     bc.p_advective.uOfXT = None
     ##.p_diffusive.uOfXT = does not exist
 
@@ -615,17 +406,23 @@ def noSlip( bc, condition ):
     """
     bc.reset()
 
+    def constant(c):
+        def function(x,t): return c
+        return function
+
     bc.u_dirichlet.setConstantBC(0.)
-    bc.u_advective.uOfXT = None
-    #bc.u_diffusive.setConstantBC(0.) # should be commented out 2019.06.05?
+    bc.u_advective.uOfXT = constant(0.)
+    bc.u_diffusive.uOfXT = None
 
     bc.v_dirichlet.setConstantBC(0.)
-    bc.v_advective.uOfXT = None
-    #bc.v_diffusive.setConstantBC(0.) # should be commented out 2019.06.05?
+    bc.v_advective.uOfXT = constant(0.)
+    bc.v_diffusive.uOfXT = None
 
     bc.w_dirichlet.setConstantBC(0.)
-    bc.w_advective.uOfXT = None
-    #bc.w_diffusive.setConstantBC(0.) # should be commented out 2019.06.05?
+    bc.w_advective.uOfXT = constant(0.)
+    bc.w_diffusive.uOfXT = None
+
+    bc.clsvof_dirichlet.uOfXT = None
 
     bc.vof_dirichlet.uOfXT = None
     bc.vof_advective.setConstantBC(0.)

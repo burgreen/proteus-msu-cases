@@ -6,19 +6,17 @@ tolFac             = 0.0
 linTolFac          = 0.0
 l_atol_res         = 0.01*rd_nl_atol_res
 nl_atol_res        = rd_nl_atol_res
-
-if 'nl_atol_redist' in user_param.tols: 
-  nl_atol_res  = user_param.tols['nl_atol_redist']
+nl_atol_res        = min( rd_nl_atol_res, user_param.knob['rd']['nl_atol'] )
 
 useEisenstatWalker = False
 
 if redist_Newton:
     timeIntegration                     = NoIntegration
     stepController                      = Newton_controller
-    maxNonlinearIts                     = 25
+    maxNonlinearIts                     = user_param.knob['rd']['nl_its']
     maxLineSearches                     = 0
     nonlinearSolverConvergenceTest      = 'rits'
-    levelNonlinearSolverConvergenceTest = 'rits'
+    levelNonlinearSolverConvergenceTest = user_param.knob['rd']['nl_test']
     linearSolverConvergenceTest         = 'r-true'
 else:
     timeIntegration                     = BackwardEuler_cfl

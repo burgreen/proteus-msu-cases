@@ -30,7 +30,7 @@ if useSuperlu:  multilevelLinearSolver = LU
 if useSuperlu:  levelLinearSolver      = LU
 
 linear_solver_options_prefix        = 'ncls_'
-levelNonlinearSolverConvergenceTest = 'r'
+levelNonlinearSolverConvergenceTest = user_param.knob['ls']['nl_test']
 linearSolverConvergenceTest         = 'r-true'
 
 tolFac             = 0.0
@@ -39,11 +39,9 @@ l_atol_res         = 0.001*ls_nl_atol_res
 nl_atol_res        = 0.01*ls_nl_atol_res
 #l_atol_res         = 1.e-0;
 #nl_atol_res        = 1.e-0;
-
-if 'nl_atol_ls' in user_param.tols: 
-  nl_atol_res  = user_param.tols['nl_atol_ls']
+nl_atol_res        = min( ls_nl_atol_res, user_param.knob['ls']['nl_atol'] )
 
 useEisenstatWalker = False
 
-maxNonlinearIts = 80
+maxNonlinearIts = user_param.knob['ls']['nl_its']
 maxLineSearches = 0

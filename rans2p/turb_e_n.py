@@ -48,18 +48,15 @@ if not useSuperlu: multilevelLinearSolver = LinearSolvers.KSP_petsc4py
 if not useSuperlu: levelLinearSolver      = LinearSolvers.KSP_petsc4py
 
 linear_solver_options_prefix        = 'dissipation_'
-levelNonlinearSolverConvergenceTest = 'rits'
+levelNonlinearSolverConvergenceTest = user_param.knob['turb_e']['nl_test']
 linearSolverConvergenceTest         = 'rits'
 
 tolFac             = 0.0
 linTolFac          = 0.0
 l_atol_res         = 0.01*dissipation_nl_atol_res
-nl_atol_res        = dissipation_nl_atol_res
-
-if 'nl_atol_turb_e' in user_param.tols: 
-  nl_atol_res  = user_param.tols['nl_atol_turb_e']
+nl_atol_res        = min( dissipation_nl_atol_res, user_param.knob['turb_e']['nl_atol'] )
 
 useEisenstatWalker = False
 
-maxNonlinearIts = 25
+maxNonlinearIts = user_param.knob['turb_e']['nl_its']
 maxLineSearches = 0

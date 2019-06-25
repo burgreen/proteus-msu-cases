@@ -1,1 +1,1 @@
-from case import ctl as user_param
+from case import cyl_2phase as user_param

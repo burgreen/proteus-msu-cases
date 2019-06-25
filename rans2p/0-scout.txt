@@ -22,7 +22,7 @@ git clone xxx://github.com/burgreen/proteus-msu-cases (where xxx = https or git)
 cd proteus-msu-cases
 cd rans2p
 cd mesh
-"tar xfv" whatever meshes you need into the mesh dir (ask Greg for specifics)
+tar xfv /work/burgreen/proteus-msu-meshes/<needed_mesh_file>
 cd ..
 
 setup_proteus_msu_scout

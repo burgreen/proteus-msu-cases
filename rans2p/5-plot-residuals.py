@@ -10,6 +10,7 @@ import math
 
 #from pylab import *
 
+import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
 
@@ -201,14 +202,14 @@ def main( file ):
   #print('cd avg, stddev', cd_a, cd_sd )
 
   fig, ax = plt.subplots()
-  if len(r['mom']): ax.plot( r['i'], r['mom'], 'k--', label='mom')
-  if len(r['p']):   ax.plot( r['i'], r['p'],   'r:',  label='p')
-  if len(r['vof']): ax.plot( r['i'], r['vof'], 'k',   label='vof')
-  if len(r['ls']):  ax.plot( r['i'], r['ls'],  'r',   label='ls')
-  if len(r['rd']):  ax.plot( r['i'], r['rd'],  'g',   label='rd')
-  if len(r['lsc']): ax.plot( r['i'], r['lsc'], 'y',   label='lsc')
-  if len(r['k']):   ax.plot( r['i'], r['k'],   'g--', label='k')
-  if len(r['e']):   ax.plot( r['i'], r['e'],   'g:',  label='e')
+  if len(r['mom']): ax.plot( np.arange(len(r['mom'])), r['mom'], 'k--', label='mom')
+  if len(r['p']):   ax.plot( np.arange(len(r['p'])), r['p'],   'r:',  label='p')
+  if len(r['vof']): ax.plot( np.arange(len(r['vof'])), r['vof'], 'k',   label='vof')
+  if len(r['ls']):  ax.plot( np.arange(len(r['ls'])), r['ls'],  'r',   label='ls')
+  if len(r['rd']):  ax.plot( np.arange(len(r['rd'])), r['rd'],  'g',   label='rd')
+  if len(r['lsc']): ax.plot( np.arange(len(r['lsc'])), r['lsc'], 'y',   label='lsc')
+  if len(r['k']):   ax.plot( np.arange(len(r['k'])), r['k'],   'g--', label='k')
+  if len(r['e']):   ax.plot( np.arange(len(r['e'])), r['e'],   'g:',  label='e')
   #legend = ax.legend(loc='upper center', shadow=True, fontsize='x-large')
   legend = ax.legend( loc='upper right', shadow=False )
   

@@ -2,7 +2,7 @@
 
 if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ]; then 
   echo usage: $0 \<num_processors\> \<case_name\> \<output_dir\>   
-  echo where \<case_name\> is a case file existing in the case dir
+  echo where \<case_name\> is a case_name.py file existing in the case dir
   echo where \<output_dir\> is the preferred name for proteus output
   echo
   echo For example, $0 4 cyl_1phase z-cyl-1phase 

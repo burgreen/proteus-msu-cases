@@ -23,7 +23,3 @@ coefficients = MCorr.Coefficients(
 initialConditions  = {
   0: user_param.IC_field_constant(0)
 }
-
-
-
-

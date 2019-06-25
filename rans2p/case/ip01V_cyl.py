@@ -1,4 +1,5 @@
 # ip01V_cyl.py surface-piercing-cylinder
+needs conversion
 
 import math
 from proteus import default_p
@@ -90,7 +91,7 @@ bc_outlet = { 'method': std_bc.outflow_rans2p,
               'waterLevel': waterLine_z,
               'smoothing': mesh_nominal_spacing,
 }
-bc_open = { 'method': std_bc.open }
+bc_open     = { 'method': std_bc.open }
 bc_interior = { 'method': std_bc.interior }
 
 bc_zone = {}
@@ -112,3 +113,5 @@ ele_zone = {}
 ele_zone['fluid'] = { 'meshtag': 1, 'condition': ele_fluid }
 
 tols = {}
+
+# eps_cons_diff < 10 -- ls may be rising

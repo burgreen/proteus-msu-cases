@@ -18,6 +18,10 @@ if user_param.useRANS == 3: dissipation_model_flag = 3
 
 print('dissipation_model_flag =', dissipation_model_flag)
 
+gravity  = numpy.array([user_param.gravity[0],
+                        user_param.gravity[1],
+                        user_param.gravity[2]], dtype='d'),
+
 coefficients = Dissipation.Coefficients(
     V_model     = 0 + int(movingDomain),
     ME_model    = ME_model,
@@ -30,10 +34,7 @@ coefficients = Dissipation.Coefficients(
     rho_1       = rho_1,
     nu_0        = nu_0,
     nu_1        = nu_1,
-    #g          = user_param.gravity,
-    g           = numpy.array([user_param.gravity[0],
-                               user_param.gravity[1],
-                               user_param.gravity[2]], dtype='d'),
+    g           = gravity
     c_mu        = 0.09,
     sigma_e     = 1.0,
     sc_uref     = dissipation_sc_uref,

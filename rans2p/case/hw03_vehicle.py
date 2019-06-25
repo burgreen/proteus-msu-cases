@@ -1,3 +1,5 @@
+needs conversion
+
 # user_param.py  case: hw03 vehicle situated midstream
 
 from math    import *
@@ -70,7 +72,7 @@ IC_field_value['w'] = 0.
 
 # mesh and BCs 
 
-filename = 'mesh/pw-hw03.tetgen'
+filename = 'mesh/hw03.tetgen'
 
 mesh_nominal_spacing = 0.05
 
@@ -105,3 +107,7 @@ ele_zone = {}
 ele_zone['fluid'] = { 'meshtag': 1, 'condition': ele_fluid }
 
 tols = {}
+
+# sc_vof = 0.5
+# sc_rd = 0.5
+# eps_cons_diff = 3.0 -- the ls was slowly rising

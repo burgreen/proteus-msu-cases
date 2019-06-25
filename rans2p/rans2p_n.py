@@ -19,8 +19,8 @@ subgridError      = RANS2P.SubgridError(coefficients,nd,lag=ns_lag_subgridError,
 shockCapturing    = RANS2P.ShockCapturing(coefficients,nd,ns_shockCapturingFactor,lag=ns_lag_shockCapturing)
 
 fullNewtonFlag            = True
-multilevelNonlinearSolver = NewtonNS
-levelNonlinearSolver      = NewtonNS
+multilevelNonlinearSolver = Newton
+levelNonlinearSolver      = Newton
 
 nonlinearSmoother = None
 linearSmoother    = SimpleNavierStokes3D
@@ -35,18 +35,16 @@ if useSuperlu:  multilevelLinearSolver = LU
 if useSuperlu:  levelLinearSolver      = LU
 
 linear_solver_options_prefix        = 'rans2p_'
-levelNonlinearSolverConvergenceTest = 'rits'
+levelNonlinearSolverConvergenceTest = user_param.knob['ns']['nl_test'] 
 linearSolverConvergenceTest         = 'r-true'
 
 tolFac             = 0.0
 linTolFac          = 0.0
 l_atol_res         = 0.01*ns_nl_atol_res
 nl_atol_res        = ns_nl_atol_res
-
-if 'nl_atol_rans2p' in user_param.tols: 
-  nl_atol_res  = user_param.tols['nl_atol_rans2p']
+nl_atol_res        = min( ns_nl_atol_res, user_param.knob['ns']['nl_atol'] )
 
 useEisenstatWalker = False
-maxNonlinearIts    = 50
+maxNonlinearIts    = user_param.knob['ns']['nl_its']
 maxLineSearches    = 0
 conservativeFlux   = {0:'pwl-bdm-opt'}
