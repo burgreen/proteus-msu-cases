@@ -152,6 +152,7 @@ bc_outlet = { 'method': std_bc.outflow_rans2p,
               'smoothing': mesh_nominal_spacing,
 }
 bc_open   = { 'method': std_bc.open,
+              'sdf': IC_signed_distance,
               'fluid': fluid,
               'gravity': gravity,
               'gravity_axis': gravity_axis,
@@ -180,7 +181,7 @@ knob = std_knob.set_defaults()
 #knob['ns']['nl_atol']     = 1.e-4
 #knob['vof']['nl_atol']    = 1.e-4
 #knob['ls']['nl_atol']     = 1.e-4
-#knob['rd']['nl_atol']     = 1.e-3
+knob['rd']['nl_atol']     = 0.01 * mesh['nominal_spacing']
 #knob['mcorr']['nl_atol']  = 1.e-4
 #knob['turb_k']['nl_atol'] = 1.e-4
 #knob['turb_e']['nl_atol'] = 1.e-4

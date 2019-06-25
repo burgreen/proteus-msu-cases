@@ -138,7 +138,7 @@ ele_zone = {}
 ele_zone['fluid'] = { 'meshtag': 1, 'condition': ele_fluid }
 
 bc_wall   = { 'method': std_bc.noSlip }
-bc_slip   = { 'method': custom_bc.freeSlip }
+bc_slip   = { 'method': std_bc.freeSlip }
 bc_inlet  = { 'method': std_bc.velocityInlet_rans2p, 
               'Vmag': Vmag,
               'sdf': IC_signed_distance,
