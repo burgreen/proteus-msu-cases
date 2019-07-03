@@ -42,7 +42,7 @@ tolFac             = 0.0
 linTolFac          = 0.0
 l_atol_res         = 0.01*ns_nl_atol_res
 nl_atol_res        = ns_nl_atol_res
-nl_atol_res        = min( ns_nl_atol_res, user_param.knob['ns']['nl_atol'] )
+nl_atol_res        = max( ns_nl_atol_res, user_param.knob['ns']['nl_atol'] )
 
 useEisenstatWalker = False
 maxNonlinearIts    = user_param.knob['ns']['nl_its']

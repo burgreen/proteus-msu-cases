@@ -57,7 +57,7 @@ tolFac             = 0.0
 linTolFac          = 0.0
 l_atol_res         = 0.01*kappa_nl_atol_res
 nl_atol_res        = kappa_nl_atol_res
-nl_atol_res        = min( kappa_nl_atol_res, user_param.knob['turb_k']['nl_atol'] )
+nl_atol_res        = max( kappa_nl_atol_res, user_param.knob['turb_k']['nl_atol'] )
 
 useEisenstatWalker = False
 

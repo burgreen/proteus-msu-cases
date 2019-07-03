@@ -37,7 +37,7 @@ linearSolverConvergenceTest         = 'r-true'
 tolFac             = 0.0
 linTolFac          = 0.0
 l_atol_res         = 0.01*vof_nl_atol_res
-nl_atol_res        = min( vof_nl_atol_res, user_param.knob['vof']['nl_atol'] )
+nl_atol_res        = max( vof_nl_atol_res, user_param.knob['vof']['nl_atol'] )
 
 useEisenstatWalker = False
 

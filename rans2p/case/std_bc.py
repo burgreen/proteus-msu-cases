@@ -191,16 +191,15 @@ def outflow_rans2p( bc, condition ):
         def function(x,t): return c
         return function
 
-    bc.u_dirichlet.uOfXT = constant(0.)
+    bc.u_dirichlet.uOfXT = None # constant(0.)
     bc.u_advective.uOfXT = None
-    #bc.u_diffusive.uOfXT = u_diffusive # some level is needed for stability
     bc.u_diffusive.uOfXT = constant(0.)
 
-    bc.v_dirichlet.uOfXT = constant(0.)
+    bc.v_dirichlet.uOfXT = None # constant(0.)
     bc.v_advective.uOfXT = None
     bc.v_diffusive.uOfXT = constant(0.)
 
-    bc.w_dirichlet.uOfXT = constant(0.)
+    bc.w_dirichlet.uOfXT = None # constant(0.)
     bc.w_advective.uOfXT = None
     bc.w_diffusive.uOfXT = constant(0.)
 
@@ -214,7 +213,7 @@ def outflow_rans2p( bc, condition ):
     bc.dissipation_advective.uOfXT = None
     bc.dissipation_diffusive.uOfXT = constant(0.)
 
-    bc.vof_dirichlet.uOfXT = vof_dirichlet
+    bc.vof_dirichlet.uOfXT = None # vof_dirichlet
     bc.vof_advective.uOfXT = None
     ##.vof_diffusive.uOfXT = does not exist
 
@@ -410,15 +409,15 @@ def noSlip( bc, condition ):
         def function(x,t): return c
         return function
 
-    bc.u_dirichlet.setConstantBC(0.)
+    bc.u_dirichlet.uOfXT = constant(0.)
     bc.u_advective.uOfXT = constant(0.)
     bc.u_diffusive.uOfXT = None
 
-    bc.v_dirichlet.setConstantBC(0.)
+    bc.v_dirichlet.uOfXT = constant(0.)
     bc.v_advective.uOfXT = constant(0.)
     bc.v_diffusive.uOfXT = None
 
-    bc.w_dirichlet.setConstantBC(0.)
+    bc.w_dirichlet.uOfXT = constant(0.)
     bc.w_advective.uOfXT = constant(0.)
     bc.w_diffusive.uOfXT = None
 
