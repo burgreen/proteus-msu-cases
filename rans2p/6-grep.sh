@@ -1,2 +1,2 @@
-grep 'Model\|Newton\|Final\|interval' $1
+grep 'Model\|Newton\|Final\|interval\|failure' $1
 
