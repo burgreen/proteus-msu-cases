@@ -24,10 +24,10 @@ modeVF          = 0
 #redist_Newton   = True # assigned via useMetrics 
 useRANS         = user_param.useRANS      # 0 -- None # 1 -- K-Epsilon # 2 -- K-Omega
 he              = 0.1    # mesh size
-
-# new to ship 2-phase
 weak_bc_penalty_constant = 100.0
 ns_forceStrongDirichlet = False
+
+runCFL = std_knob['runCFL']
 
 if user_param.nphase > 1: modeVF = 2
 
