@@ -1,0 +1,54 @@
+#!/bin/bash
+#PBS -N z-ip02
+#PBS -q q160p48h 
+#PBS -l nodes=9:ppn=16
+#PBS -l walltime=48:00:00
+#PBS -j oe
+#PBS -r n
+#PBS -V
+#PBS -m e
+#PBS -M greg.burgreen@gmail.com
+#PBS -A 060803-360740
+
+#----------------------------------
+# proteus run
+
+export np=144
+export case=ip02
+export output_dir=z-ip02
+export restart=no
+
+alias
+echo $scout_proteus_msu
+
+#source /work/burgreen/proteus-msu/scout/1-module-load-proteus.sh
+source $scout_proteus_msu/1-module-load-proteus.sh
+echo `which parun`
+
+cd $PBS_O_WORKDIR
+echo $PBS_O_WORKDIR
+
+echo from case import $case as user_param > user_param.py
+
+if [ $restart == "yes" ]; then
+  mpirun -n $np parun main.py -l 2 -v -O 4-petsc.options -D $output_dir -H
+else
+  mpirun -n $np parun main.py -l 2 -v -O 4-petsc.options -D $output_dir 
+fi
+
+#----------------------------------
+##  Scout info
+##PBS -q q160p48h     -> 10 nodes (160 processors); 48 hours max walltime
+##PBS -q q48p160h     ->  3 nodes ( 48 processors); 160 hours max walltime
+##PBS -q debug        ->  3 nodes ( 48 processors); 20 minutes max walltime
+##PBS -q q32p48h-gpu  ->  2 nodes ( 32 processors + 2 GPU); 48 hours max walltime; GPU workloads ONLY
+##  Scout node configuration: 
+##  16 cores (2x Xeon E5-2680 2.7GHz (turbo, 3.5GHz) 8 core Sandy Bridge processors)
+##  32GB memory (8x 4GB DDR3-1600MHz)
+##  FDR (56Gb/s) Infiniband network
+##  8 nodes with 1 Nvidia K20 GPU
+
+#----------------------------------
+##  Shadow info
+##nodes=10:ppn=20:mem529  #Use for higher memory nodes on shadow
+
