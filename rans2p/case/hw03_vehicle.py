@@ -161,8 +161,11 @@ bc_zone['sw-w'] = { 'meshtag': 13, 'condition': bc_wall }
 # change from default values via: knob['vof']['sc_fac'] = 0.1
 
 knob = std_knob.set_defaults()  
+
 knob['vof']['sc_fac']     = 0.1
 knob['rd']['sc_fac']      = 0.1
+knob['ls']['sc_fac']      = 0.1
+
 knob['ns']['nl_atol']     = 1.e-4
 knob['vof']['nl_atol']    = 1.e-4
 knob['ls']['nl_atol']     = 1.e-4
@@ -170,3 +173,6 @@ knob['rd']['nl_atol']     = 1.e-3
 knob['mcorr']['nl_atol']  = 1.e-4
 knob['turb_k']['nl_atol'] = 1.e-4
 knob['turb_e']['nl_atol'] = 1.e-4
+
+knob['misc']['runCFL'] = 0.5
+

@@ -64,8 +64,9 @@ knob['epsFact']['std'] = 1.5
 knob['epsFact']['rd']  = 0.33
 knob['epsFact']['consrv_diffusion'] = 10.0
 
+knob['misc'] = {}
 # global var in default_n.py; controls overall timestep size; default = 0.9
-knob['runCFL'] = 0.9 
+knob['misc']['runCFL'] = 0.9 
 
 import copy
 

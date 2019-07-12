@@ -27,7 +27,7 @@ he              = 0.1    # mesh size
 weak_bc_penalty_constant = 100.0
 ns_forceStrongDirichlet = False
 
-runCFL = std_knob['runCFL']
+runCFL = std_knob.knob['misc']['runCFL']
 
 if user_param.nphase > 1: modeVF = 2
 
