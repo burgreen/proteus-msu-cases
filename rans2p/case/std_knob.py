@@ -61,12 +61,17 @@ knob['turb_e']['nl_test'] = 'rits'
 
 knob['epsFact'] = {}
 knob['epsFact']['std'] = 1.5
+# epsFact.rd controls how far away from the interface we "freeze" the result of the 
+# level set transport step.  It is known that redistancing can introduce 
+# noise into the interface. Values of 0.75 and 1.5 are known to work.
 knob['epsFact']['rd']  = 0.33
 knob['epsFact']['consrv_diffusion'] = 10.0
 
-knob['misc'] = {}
+knob['system'] = {}
 # global var in default_n.py; controls overall timestep size; default = 0.9
-knob['misc']['runCFL'] = 0.9 
+knob['system']['runCFL'] = 0.9 
+# if positive, imposes Sequential_FixedStep time steps
+knob['system']['dt_system_fixed'] = -0.001
 
 import copy
 

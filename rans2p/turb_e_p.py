@@ -42,16 +42,15 @@ coefficients = Dissipation.Coefficients(
 )
 
 dirichletConditions = {
-  0: lambda x, flag: domain.bc[flag].dissipation_dirichlet.init_cython()
+  0: lambda x,flag: domain.bc[domain.meshtag_bcIdx[flag]].dissipation_dirichlet.init_cython()
 }
 
 advectiveFluxBoundaryConditions = {
-  0: lambda x, flag: domain.bc[flag].dissipation_advective.init_cython()
+  0: lambda x,flag: domain.bc[domain.meshtag_bcIdx[flag]].dissipation_advective.init_cython()
 }
 
 diffusiveFluxBoundaryConditions = {
-  0: {},
-  1: { 1: lambda x, flag: domain.bc[flag].dissipation_diffusive.init_cython() }
+  0: { 0: lambda x,flag: domain.bc[domain.meshtag_bcIdx[flag]].dissipation_diffusive.init_cython() }
 }
 
 turb_e = user_param.IC_field_value['turb_e']

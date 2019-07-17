@@ -2,6 +2,7 @@
 
 from proteus.default_so import *
 import main_param as param
+import user_param as user_param
 
 eqns = []
 eqns.append('rans2p')
@@ -25,6 +26,11 @@ for eqn in eqns: pnList.append( (eqn+'_p',eqn+'_n') )
 name = "main" 
 
 systemStepControllerType = Sequential_MinAdaptiveModelStep
+
+if user_param.knob['system']['dt_system_fixed'] > 0.0:
+  systemStepControllerType = Sequential_FixedStep
+  systemStepExact = False
+  dt_system_fixed = user_param.knob['system']['dt_system_fixed']
 
 needEBQ_GLOBAL = False
 needEBQ        = False
